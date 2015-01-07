@@ -1,0 +1,124 @@
+﻿3Dception : TwoBigEars.com
+
+v0.8.0b (23 December 2014)
+———------------------------
+* New! Attenuation curve selection
+* New! TBE_Room interface on TBE_Source/TBE_Filter now shows the name of the auto-detected room object
+* Improved: Support for Fabric
+* Fixed: Clicking when changing panning modes, panners now smoothly interpolate 
+* Fixed: Rare issue of rooms not detected in Unity Editor
+* Fixed: Minor improvements and bug fixes
+
+v0.7.0b (26 November 2014)
+--------------------------
+* New! Doppler intensity interface
+* Improved: Elevation effects and spatialisation improvements
+* Improved: Quality improvements at 48KHz sample rate
+* Fixed: Room position not updated every frame
+* Fixed: Unity crashes or 3Dception does not work in multi-channel audio projects
+* Fixed: Audio source position not updated if listener is instantiated after scene initialisation
+* Fixed: Source limit reached in Basic or Non-Commercial versions if 3Dception is not initialised
+* Fixed: Doppler effect heard when source is initialised away from the listener
+
+v0.6.2b (12 November 2014)
+--------------------------
+* New! New 3Dception project setup and debug window. Automatically setup your scene with all required components.
+* New (and Fixed!) ! Added 3Dception Initialisation and Destruction components. This will allow for the Global Listener to be deleted and added during run-time
+
+v0.6.1b (29 October 2014)
+--------------------------
+* New! Support for Unity 5
+* New! Added a Diagnostics tool to the 3Dception menu, to help upgrade 3Dception to newer versions and diagnose problems
+* Fixed: Room gizmo UI collapses on play in the scene editor
+* Fixed: High frequency click around +/- 180 degree azimuth
+
+v0.6.0b (20 October 2014)
+--------------------------
+* New! Switch between HRTF, approximated and stereo (non-HRTF) panning per source
+* New! New room model with variable reflections per surface
+* New! Room reflection presets
+* New! TBE_Room UI gizmo
+* New! New and improved physics system. Unity objects no longer require rigid bodies for room modelling
+* New! Basic and non-commerical packages now mute only the sources that cross the limit
+* New! Choice of center or corner pivot points for TBE_Room objects
+* New! Gain modifier on PlayOnShot method for TBE_Source
+* Improved: Better sense of front/back and externalisation
+* Improved: Higher quality early reflections and room modelling
+* Improved: Upto 4-5x more efficient with calculations on the main thread
+* Improved: Better frequency response. More 'transparent' sounding filters
+* Improved: Better reproduction of low frequencies
+* Improved: Spatialisation and timbral quality improvements
+* Improved: Quality improvements for sample rates less than 44100Hz
+* Improved: Higher resolution high frequency reflection control
+* Improved: Documentation and API support
+* Improved: Error handling and error messages
+* Fixed: Licensing error when creating a new project or scene
+* Fixed: Gain loss, compared to Unity's audio sources
+* Fixed: ER doesn't turn back on with max mute enabled
+* Fixed: Doppler/pitch artefact when doppler is off and sound is played 'On Awake'
+* Fixed: Fade in/glitch when source is initialised
+* Fixed: Clicking at low frequencies
+* Fixed: Hard transitions at elevations of +/-90 degrees
+* Fixed: TBE_Room UI gizmo incorrectly drawn when room is rotated
+
+v0.5.0b (15 August 2014)
+------------------------
+* NEW! iOS and Android public builds
+* NEW! Major quality upgrade
+* Improved: Better sense of elevation and azimuthal panning
+* Improved: Smoother panning
+* Improved: Better phase response
+* Improved: Reduced phase artefacts with broadband sounds
+* Fixed: "Window layout is invalid" error in Windows
+* Fixed: Rare bug of muted audio inside rooms
+* Fixed: Audio muted on app start (Android)
+
+v0.4.0b (30 June 2014)
+----------------------
+* NEW! Doppler
+* NEW! Room diffuse zones — specify areas around the room for the reflections to die out (on TBE_Room)
+* NEW! Select channels for binaural processing when using stereo audio files (on TBE_Source)
+* NEW! 3Dception Filter for Unity Audio sources
+* Improved: Room modelling calculations
+* Fixed: Room detection issue with negative scale values
+* Full support for OSX 64 and 32 bit
+* Initial support for iOS and Android
+* Lots of low level optimisations — greatly improved performance
+* Minor improvements in spatialisation quality
+* Fixed: Listener orientation error
+* Fixed: Android heap corruption
+
+v0.3.1b	(15 April 2014)
+-----------------------
+* Fixed: Unpredictable crash when manually assigning a TBE_Room prefab
+
+v0.3.0b	(14 April 2014)
+-----------------------
+* Added scripting support for TBE_Source
+* Fixed: Minor bugs
+
+v0.2.1a	(05 April 2014)
+-----------------------
+* Fixed: Reverb not responding to source 3D properties
+* Fixed: Room not responding to source 3D properties
+* Fixed: Amplitude jump for large minimum distance values
+* Changed: Increased limit of 'Rolloff Factor' from 2 to 10
+
+v0.2.0a	(04 April 2014)
+-----------------------
+* NEW! Max Distance Mute: mute sound if object distance is greater than maximum distance
+* Change: "Detect Room" renamed to "Auto Detect" on TBE_Source
+* Fixed: Sound not spatialised for one shot triggers
+* Fixed: Minor bugs
+
+v0.1.1a	(17 March 2014)
+-----------------------
+* Evaluation version: Removed timed bypass.
+* Fixed: Room reflection parameters not being saved with scene
+* Fixed: Minor bugs
+* Fixed: "DLL Not Found" issue using OculusPlugin.dll and tbe_3Dception.dll on Windows 
+
+
+v.1.0a (13 March 2014)
+----------------------
+Initial alpha release of 3Dception Unity
