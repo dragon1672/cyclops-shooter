@@ -9,88 +9,96 @@ public class RailPointManager : MonoBehaviour
     public GameObject HolderOfLookAtScript;
     public string TagNameToGrabRailPoints = "RailPoint";
     public float Delay = 0.0f;
-    public bool loopPath = false;
+    public bool LoopPath = false;
 
-    public bool AtEndRailPoint { get { return (currentIndex >= allRailPoints.Length); } }
-    private int currentIndex;
-    private GameObject point;
-    private GameObject[] allRailPoints;
-    private bool moving;
+    public bool AtEndRailPoint { get { return (_currentIndex >= _allRailPoints.Length); } }
+    private int _currentIndex;
+    private GameObject _point;
+    private GameObject[] _allRailPoints;
+	public bool _moving { get; private set; }
+	private bool isInitialized = false;
 
     // Use this for initialization
     void Start()
     {
-        allRailPoints = GameObject.FindGameObjectsWithTag(TagNameToGrabRailPoints);
-        allRailPoints = allRailPoints.OrderBy(n => getIndexFromRailPointName(n.name)).ToArray();
-        currentIndex = 0;
-        point = allRailPoints[currentIndex];
-        HolderOfMoveToScript.gameObject.transform.position = point.gameObject.transform.position;
-        currentIndex++;
-        moving = false;
-        GameObject nextLookAt = getNextLookAt();
-
-        point = allRailPoints[currentIndex];
-        HolderOfLookAtScript.GetComponent<LookAtTarget>().TargetToLookAt = nextLookAt;
-        HolderOfMoveToScript.GetComponent<MoveToTarget>().targetToMoveTo = point;
-        StartCoroutine(WaitTillGo(Delay));
+        _allRailPoints = GameObject.FindGameObjectsWithTag(TagNameToGrabRailPoints);
+        _allRailPoints = _allRailPoints.OrderBy(n => GetIndexFromRailPointName(n.name)).ToArray();
     }
+
+	public void Init()
+	{
+		_currentIndex = 0;
+		_point = _allRailPoints[_currentIndex];
+		HolderOfMoveToScript.gameObject.transform.position = _point.gameObject.transform.position;
+		_currentIndex++;
+		GameObject nextLookAt = GetNextLookAt();
+
+		_point = _allRailPoints[_currentIndex];
+		HolderOfLookAtScript.GetComponent<LookAtTarget>().TargetToLookAt = nextLookAt;
+		HolderOfMoveToScript.GetComponent<MoveToTarget>().targetToMoveTo = _point;
+		isInitialized = true;
+		StartCoroutine(WaitTillGo(Delay));
+	}
 
     // Update is called once per frame
     void Update()
     {
-        updateCurrentIndex();
-        updateMoveAbility();
-        HolderOfLookAtScript.GetComponent<LookAtTarget>().CanUpdate = moving;
-        HolderOfMoveToScript.GetComponent<MoveToTarget>().CanUpdate = moving;
+	    if (!enabled) return;
+	    if (!isInitialized)
+	    {
+		    Init();
+	    }
+		if (!_moving) return;
+	    UpdateCurrentIndex();
+	    UpdateMoveAbility();
+	    HolderOfLookAtScript.GetComponent<LookAtTarget>().CanUpdate = _moving;
+	    HolderOfMoveToScript.GetComponent<MoveToTarget>().CanUpdate = _moving;
     }
 
-    private void updateCurrentIndex()
+    private void UpdateCurrentIndex()
     {
-        if (moving)
-        {
-            point = allRailPoints[currentIndex];
-            RailPoint rp = point.GetComponent<RailPoint>();
+        _point = _allRailPoints[_currentIndex];
+        RailPoint rp = _point.GetComponent<RailPoint>();
 
-            if (rp.HasBeenReached)
-            {
-               // Debug.Log("Index reached: " + currentIndex);
-                currentIndex++;
-            }
+        if (rp.HasBeenReached)
+        {
+            // Debug.Log("Index reached: " + currentIndex);
+            _currentIndex++;
         }
     }
-    private void updateMoveAbility()
+    private void UpdateMoveAbility()
     {
         if (AtEndRailPoint)
         {
-            if (loopPath)
+            if (LoopPath)
             {
-                currentIndex = 0;
+                _currentIndex = 0;
             }
             else
             {
-                moving = false;
+                _moving = false;
             }
         }
         else
         {
-            setUpNextPathTo();
+            SetUpNextPathTo();
         }
     }
-    private void setUpNextPathTo()
+    private void SetUpNextPathTo()
     {
-       GameObject nextLookAt = getNextLookAt();
+       GameObject nextLookAt = GetNextLookAt();
        HolderOfLookAtScript.GetComponent<LookAtTarget>().TargetToLookAt = nextLookAt;
-       HolderOfMoveToScript.GetComponent<MoveToTarget>().targetToMoveTo = point;
+       HolderOfMoveToScript.GetComponent<MoveToTarget>().targetToMoveTo = _point;
     }
-    private GameObject getNextLookAt()
+    private GameObject GetNextLookAt()
     {
-        point = allRailPoints[currentIndex];
-        RailPoint rp = point.GetComponent<RailPoint>();
+        _point = _allRailPoints[_currentIndex];
+        RailPoint rp = _point.GetComponent<RailPoint>();
         GameObject nextLookAt = rp.ToLookAtWhenInRouteToMe;
         if (nextLookAt == null)
         {
-            int pointIndex = currentIndex;
-            nextLookAt = allRailPoints[pointIndex];
+            int pointIndex = _currentIndex;
+            nextLookAt = _allRailPoints[pointIndex];
         }
         return nextLookAt;
     }
@@ -98,10 +106,10 @@ public class RailPointManager : MonoBehaviour
     private IEnumerator WaitTillGo(float time)
     {
         yield return new WaitForSeconds(time);
-        moving = true;
+        _moving = true;
     }
 
-    int getIndexFromRailPointName(string src)
+    int GetIndexFromRailPointName(string src)
     {
         int ret = 0;
         int power = 1;
