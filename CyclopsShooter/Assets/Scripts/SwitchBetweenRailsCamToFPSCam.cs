@@ -7,15 +7,20 @@ public class SwitchBetweenRailsCamToFPSCam : MonoBehaviour {
     public GameObject FPSController;
     public GameObject FPSMainCamera;
     public bool isOnRails = true;
+    private bool lastKnownCamIsRails;
 
     void Start()
     {
+        lastKnownCamIsRails = isOnRails;
         setCamToRails(isOnRails);
     }
-    public void  switchCameraMovementType()
+    void Update()
     {
-        isOnRails = !isOnRails;
-        setCamToRails(isOnRails);
+        if (isOnRails != lastKnownCamIsRails)
+        {
+            lastKnownCamIsRails = isOnRails;
+            setCamToRails(isOnRails);
+        }
     }
 
     private void setCamToRails(bool setToOn)
