@@ -12,7 +12,7 @@ public class RailSystem : MonoBehaviour
 	private bool _currentIsDone = false;
 	private bool _isInit = false;
 
-	void Start()
+	void Awake()
 	{
 		foreach (RailPointManager t in Rails)
 		{

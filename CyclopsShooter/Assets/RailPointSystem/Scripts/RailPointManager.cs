@@ -36,8 +36,7 @@ public class RailPointManager : MonoBehaviour
 		_allRailPoints = GameObject.FindGameObjectsWithTag(TagNameToGrabRailPoints);
 		_allRailPoints = _allRailPoints.OrderBy(n => GetIndexFromRailPointName(n.name)).ToArray();
 
-		LoopEvent += () => Debug.Log("loop");
-		CompletedEvent += () => Debug.Log("Complete");
+		if (enabled) Init();
 	}
 
 	public void Init()
