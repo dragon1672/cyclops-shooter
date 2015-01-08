@@ -8,15 +8,11 @@ public class SoldierAnimationControls : MonoBehaviour {
     private Animator _animator;
     private Vector3 lastKnownRotation;
     private Vector3 lastKnownPosition;
+    private Vector3 originalRootPos;
     private Vector3 originalPos;
-    private const float moveThreshold = 0.01f;
+    private const float moveThreshold = 0.02f;
     private const float turnThreshold = 0.4f;
     private float originalY;
-    private bool walkForward;
-    private bool canWalk;
-
-    public GameObject turnToObjOne;
-    public GameObject turnToObjTwo;
 
     public bool IsWalking
     {
@@ -57,41 +53,34 @@ public class SoldierAnimationControls : MonoBehaviour {
     void Awake()
     {
         _animator = GetComponent<Animator>();
-        lastKnownRotation = this.gameObject.transform.rotation.eulerAngles;
+        lastKnownRotation = this.gameObject.transform.root.rotation.eulerAngles;
+        originalRootPos = this.gameObject.transform.root.position;
+        originalY = originalRootPos.y;
         originalPos = this.gameObject.transform.position;
-        originalY = originalPos.y;
-        walkForward = false;
-        canWalk = false;
     }
 
     void Update()
     {
-        //transformCharacterByAnimatingBooleans();
+       // this.gameObject.transform.position = originalPos;
+        transformCharacterByAnimatingBooleans();
     }
 
     void transformCharacterByAnimatingBooleans()
     {
-        if (walkForward)
+        if (!checkTurning())
         {
-            canWalk = true;
-            Vector3 currentPos = this.gameObject.transform.position;
-            this.gameObject.transform.position = new Vector3(currentPos.x + walkAmount, currentPos.y, currentPos.z);
+            checkWalking();
         }
-        checkWalking();
-        checkTurning();
         if (!(IsTurningLeft || IsTurningRight || IsWalking))
         {
-            hardResetY();
-        }
-        if (!canWalk)
-        {
-            this.gameObject.transform.position = originalPos;
+            //hardResetY();
         }
     }
 
-    void checkTurning()
+    bool checkTurning()
     {
-        Vector3 currentRotation = this.gameObject.transform.rotation.eulerAngles;
+        bool turned = false;
+        Vector3 currentRotation = this.gameObject.transform.root.rotation.eulerAngles;
         float yDiff = lastKnownRotation.y - currentRotation.y;
         if (lastKnownRotation != currentRotation && Mathf.Abs(yDiff) > turnThreshold)
         {
@@ -103,6 +92,7 @@ public class SoldierAnimationControls : MonoBehaviour {
             {
                 IsTurningRight = true;
             }
+            turned = true;
         }
         else
         {
@@ -110,31 +100,34 @@ public class SoldierAnimationControls : MonoBehaviour {
             IsTurningLeft = false;
         }
         lastKnownRotation = currentRotation;
+        return turned;
     }
 
-    void checkWalking()
+    bool checkWalking()
     {
-        Vector3 currentPos = this.gameObject.transform.position;
+        bool walked = false;
+        Vector3 currentPos = this.gameObject.transform.root.position;
         float xDiff = lastKnownPosition.x - currentPos.x;
-        float zDiff = lastKnownPosition.x - currentPos.x;
-        if (canWalk && lastKnownPosition != currentPos && (Mathf.Abs(xDiff) > moveThreshold || Mathf.Abs(zDiff) > moveThreshold))
+        float zDiff = lastKnownPosition.z - currentPos.z;
+        if (lastKnownPosition != currentPos && (Mathf.Abs(xDiff) > moveThreshold || Mathf.Abs(zDiff) > moveThreshold))
         {
-            if (xDiff > 0)
+            if (zDiff > 0)
             {
                 IsWalking = true;
             }
-            else if (xDiff < 0)
+            else if (zDiff < 0)
             {
                 IsTurningLeft = true;
             }
-            if (zDiff > 0)
-            {
-                IsStrafingLeft = true;
-            }
-            else if (zDiff < 0)
+            if (xDiff > 0)
             {
                 IsStrafingRight = true;
             }
+            else if (xDiff < 0)
+            {
+                IsStrafingLeft = true;
+            }
+            walked = true;
         }
         else
         {
@@ -144,12 +137,13 @@ public class SoldierAnimationControls : MonoBehaviour {
             IsWalking = false;
         }
         lastKnownPosition = currentPos;
+        return walked;
     }
 
     void hardResetY()
     {
-        Vector3 currentPos = this.gameObject.transform.position;
-        this.gameObject.transform.position = new Vector3(currentPos.x, originalY, currentPos.z);
+        Vector3 currentPos = this.gameObject.transform.root.position;
+        this.gameObject.transform.root.position = new Vector3(currentPos.x, originalY, currentPos.z);
     }
 
     void deleteGameObject()
