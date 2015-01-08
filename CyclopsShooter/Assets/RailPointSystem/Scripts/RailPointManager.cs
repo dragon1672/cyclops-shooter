@@ -15,6 +15,7 @@ public class RailPointManager : MonoBehaviour
 	public float Delay = 0.0f;
 	public bool LoopPath = false;
 	public bool SnapToStart = true;
+    public bool UseLookAt = true;
 
 	public RailPointEvent LoopEvent = null;
 	public RailPointEvent CompletedEvent = null;
@@ -51,7 +52,10 @@ public class RailPointManager : MonoBehaviour
 		GameObject nextLookAt = GetNextLookAt();
 
 		_point = _allRailPoints[_currentIndex];
-		HolderOfLookAtScript.GetComponent<LookAtTarget>().TargetToLookAt = nextLookAt;
+        if (UseLookAt)
+        {
+            HolderOfLookAtScript.GetComponent<LookAtTarget>().TargetToLookAt = nextLookAt;
+        }
 		HolderOfMoveToScript.GetComponent<MoveToTarget>().targetToMoveTo = _point;
 		isInitialized = true;
 		StartCoroutine(WaitTillGo(Delay));
@@ -68,7 +72,10 @@ public class RailPointManager : MonoBehaviour
 		if (!_moving) return;
 		UpdateCurrentIndex();
 		UpdateMoveAbility();
-		HolderOfLookAtScript.GetComponent<LookAtTarget>().CanUpdate = _moving;
+        if (UseLookAt)
+        {
+            HolderOfLookAtScript.GetComponent<LookAtTarget>().CanUpdate = _moving;
+        }
 		HolderOfMoveToScript.GetComponent<MoveToTarget>().CanUpdate = _moving;
 	}
 
@@ -114,7 +121,10 @@ public class RailPointManager : MonoBehaviour
 	private void SetUpNextPathTo()
 	{
 		GameObject nextLookAt = GetNextLookAt();
-		HolderOfLookAtScript.GetComponent<LookAtTarget>().TargetToLookAt = nextLookAt;
+        if (UseLookAt)
+        {
+            HolderOfLookAtScript.GetComponent<LookAtTarget>().TargetToLookAt = nextLookAt;
+        }
 		HolderOfMoveToScript.GetComponent<MoveToTarget>().targetToMoveTo = _point;
 	}
 
