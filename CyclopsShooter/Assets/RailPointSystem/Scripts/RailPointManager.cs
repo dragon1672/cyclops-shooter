@@ -1,7 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Globalization;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+
+public delegate void RailPointEvent();
 
 public class RailPointManager : MonoBehaviour
 {
@@ -10,6 +14,10 @@ public class RailPointManager : MonoBehaviour
 	public string TagNameToGrabRailPoints = "RailPoint";
 	public float Delay = 0.0f;
 	public bool LoopPath = false;
+	public bool SnapToStart = true;
+
+	public RailPointEvent LoopEvent = null;
+	public RailPointEvent CompletedEvent = null;
 
 	public bool AtEndRailPoint
 	{
@@ -27,13 +35,19 @@ public class RailPointManager : MonoBehaviour
 	{
 		_allRailPoints = GameObject.FindGameObjectsWithTag(TagNameToGrabRailPoints);
 		_allRailPoints = _allRailPoints.OrderBy(n => GetIndexFromRailPointName(n.name)).ToArray();
+
+		LoopEvent += () => Debug.Log("loop");
+		CompletedEvent += () => Debug.Log("Complete");
 	}
 
 	public void Init()
 	{
 		_currentIndex = 0;
 		_point = _allRailPoints[_currentIndex];
-		HolderOfMoveToScript.gameObject.transform.position = _point.gameObject.transform.position;
+		if (SnapToStart)
+		{
+			HolderOfMoveToScript.gameObject.transform.position = _point.gameObject.transform.position;
+		}
 		_currentIndex++;
 		GameObject nextLookAt = GetNextLookAt();
 
@@ -78,10 +92,18 @@ public class RailPointManager : MonoBehaviour
 			if (LoopPath)
 			{
 				_currentIndex = 0;
+				if (LoopEvent != null)
+				{
+					LoopEvent();
+				}
 			}
 			else
 			{
 				_moving = false;
+				if (CompletedEvent != null)
+				{
+					CompletedEvent();
+				}
 			}
 		}
 		else
