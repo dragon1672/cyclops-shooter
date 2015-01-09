@@ -40,7 +40,7 @@ public class CyclopsPlayer : MonoBehaviour
 
 	public float HealthPercent { get { return (float)(Health/HealthMax); } }
 
-	private KeyManager FireButton;
+	private KeyManager _fireButton;
 	public double MaxCoolDown;
 	private double _coolDown;
 	private double CoolDown
@@ -51,16 +51,18 @@ public class CyclopsPlayer : MonoBehaviour
 
 	void Start ()
 	{
-		FireButton = new KeyManager(() => Input.GetMouseButtonDown(0));
+		_fireButton = new KeyManager(() => Input.GetKeyDown(KeyCode.Space));
 		Health = HealthMax;
 	}
 
 	void Update()
 	{
-		FireButton.Update();
-		if (FireButton.WasPressed() || CoolDown==0)
+		_fireButton.Update();
+		if (_fireButton.WasPressed() || CoolDown<=0)
 		{
 			CoolDown = MaxCoolDown;
+			//create fire effect
+			
 		}
 
 		CoolDown -= Time.deltaTime;
