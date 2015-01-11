@@ -3,20 +3,21 @@ using System.Collections;
 
 public class LaserBeamScript : MonoBehaviour {
 
-    public LineRenderer line;
     public ParticleSystem particleSystem;
-    public GameObject aimSpot;
+    public string ButtonToFireLaser = "Fire1";
+
+    public float Speed{ get;set;}
 	// Use this for initialization
 	void Start () {
-        line.enabled = false;
         particleSystem.enableEmission = false;
+        Speed = 40f;
         //Turn Mouse Off
         Screen.lockCursor = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown(ButtonToFireLaser))
         {
             //fail safe stop
             StopCoroutine("FireLaser");
@@ -26,16 +27,13 @@ public class LaserBeamScript : MonoBehaviour {
 
     IEnumerator FireLaser()
     {
-        line.enabled = true;
         particleSystem.enableEmission = true;
-        while (Input.GetButton("Fire1"))
+        while (Input.GetButton(ButtonToFireLaser))
         {
-            line.SetPosition(0, transform.position);
-            line.SetPosition(1, aimSpot.transform.position);
-
+           //keep particle system going
+            particleSystem.startSpeed = Speed;
             yield return null;
         }
-        line.enabled = false;
         particleSystem.enableEmission = false;
     }
 }
