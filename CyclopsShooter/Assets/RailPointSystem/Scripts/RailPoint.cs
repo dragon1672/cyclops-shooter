@@ -10,7 +10,6 @@ public class RailPoint : MonoBehaviour
 	void Start () 
     {
         HasBeenReached = false; 
-        renderer.enabled = false;
 	}
 
     void OnTriggerEnter(Collider c)
