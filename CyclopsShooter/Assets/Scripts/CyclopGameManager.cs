@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CyclopGameManager : MonoBehaviour
 {
-	public CyclopsPlayer MainPlayer;
+	public CyclopsEnemy MainPlayer;
 
 
 	// Use this for initialization
