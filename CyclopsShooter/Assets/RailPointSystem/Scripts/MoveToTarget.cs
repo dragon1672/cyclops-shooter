@@ -6,11 +6,14 @@ public class MoveToTarget : MonoBehaviour
     public GameObject targetToMoveTo;
     public float speed = 5.0f;
     public bool CanUpdate { get; set; }
-	public bool Complete { get; private set; }
+
+	public bool Complete
+	{
+		get { return transform.position == targetToMoveTo.transform.position; }
+	}
 
 	void Awake()
 	{
-		Complete = false;
         CanUpdate = true;
     }
     void Update()
@@ -24,6 +27,5 @@ public class MoveToTarget : MonoBehaviour
     public void Move(Vector3 posToMoveTo)
     {
         transform.position = Vector3.MoveTowards(transform.position, posToMoveTo, Time.deltaTime * speed);
-	    Complete = (transform.position == posToMoveTo);
     }
 }
