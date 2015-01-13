@@ -6,6 +6,12 @@ public class CyclopsEnemy : LaserHittable
 	public GameObject VisualGameObject = null;
 	public float MinTimeBetweenShots;
 	public float MaxTimeBetweenShots;
+	/// <summary>
+	/// how long to wait after GameStart has been called
+	/// </summary>
+	public float DelayToStart = 0;
+
+	private float _currentDelay;
 	private bool _activeInGame = false;
 
 	private float _timeSinceLastShot = 0;
@@ -19,6 +25,7 @@ public class CyclopsEnemy : LaserHittable
 	public void GameStarted()
 	{
 		_activeInGame = true;
+		_currentDelay = DelayToStart;
 		gameObject.SetActive(true);
 	}
 
@@ -26,6 +33,12 @@ public class CyclopsEnemy : LaserHittable
 	private void Update()
 	{
 		if (!_activeInGame) return;
+
+		if (_currentDelay >= 0)
+		{
+			_currentDelay -= Time.deltaTime;
+			return;
+		}
 
 		if (_timeSinceLastShot > MinTimeBetweenShots)
 		{
@@ -39,8 +52,6 @@ public class CyclopsEnemy : LaserHittable
 		{
 			_nextShotTime = Random.Range(MinTimeBetweenShots, MaxTimeBetweenShots);
 		}
-
-
 		_timeSinceLastShot += Time.deltaTime;
 	}
 
