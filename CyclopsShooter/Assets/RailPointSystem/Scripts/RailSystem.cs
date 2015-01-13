@@ -57,7 +57,7 @@ public class RailSystem : MonoBehaviour
 		}
 	}
 
-	private void Continue()
+	public void Continue()
 	{
 		if (_currentIsDone)
 		{
