@@ -1,25 +1,27 @@
 ﻿using System.Linq;
-using TBE_3DCore;
 using UnityEngine;
 using System.Collections;
 
 public class GameStage : MonoBehaviour
 {
-	public CyclopsEnemy[] Players;
-	public Collider MyTrigger;
-	public RailSystem Rails;
-	private bool activeInGame = false;
+	public ColliderNotify MyTrigger;
+	private CyclopGameManager _myManager;
+	private bool _activeInGame = false;
+	private CyclopsEnemy[] _players;
 	// Use this for initialization
-	void Start () {
-	
+	void Start ()
+	{
+		_players = GetComponentsInChildren<CyclopsEnemy>();
+		_myManager = GetComponentInParent<CyclopGameManager>();
+		MyTrigger.OnCollidionAction += OnCollisionEnter;
 	}
 
 	void OnCollisionEnter(Collision collision)
 	{
-		if (collision.gameObject.GetComponentInChildren<TBE_GlobalListener>() == null) return;
+		if (collision.gameObject.GetComponentInChildren<CyclopsMainPlayer>() == null) return;
 
-		activeInGame = true;
-		foreach (var cyclopsEnemy in Players)
+		_activeInGame = true;
+		foreach (var cyclopsEnemy in _players)
 		{
 			cyclopsEnemy.GameStarted();
 		}
@@ -28,11 +30,11 @@ public class GameStage : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (!activeInGame) return;
-		if (Players.All(n => n.IsDead))
+		if (!_activeInGame) return;
+		if (_players.All(n => n.IsDead))
 		{
-			activeInGame = false;
-			Rails.Continue();
+			_activeInGame = false;
+			_myManager.Continue();
 		}
 
 	}

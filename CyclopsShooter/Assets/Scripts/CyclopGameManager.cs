@@ -3,16 +3,11 @@ using System.Collections;
 
 public class CyclopGameManager : MonoBehaviour
 {
-	public CyclopsEnemy MainPlayer;
+	public CyclopsMainPlayer Player;
+	public RailSystem Rails;
 
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	public void Continue()
+	{
+		Rails.Continue();
 	}
 }
