@@ -12,7 +12,12 @@ public class LaserBeamScript : MonoBehaviour {
     public GameObject destroyEffectObject;
     private float destroyParicleAfter = 1.0f;
 
-	private List<KeyCode> _acceptedKeyCodes;
+	private List<KeyCode> _acceptedKeyCodes = new List<KeyCode>()
+	{
+		KeyCode.Space, // main attack
+		KeyCode.Mouse1, KeyCode.Mouse2, KeyCode.Mouse3, KeyCode.Mouse4, KeyCode.Mouse5, KeyCode.Mouse6, // mouse
+		KeyCode.C, KeyCode.V, KeyCode.B, KeyCode.N, KeyCode.M, // bottom row
+	};
 
     public float Speed{ get;set;}
 	// Use this for initialization
@@ -43,29 +48,13 @@ public class LaserBeamScript : MonoBehaviour {
         }
 	}
 
-	Color Hex2Col(int num)
-	{
-		const int hexLength = 6;
-		int maxHex = (int)Math.Pow(2,hexLength*4);
-		num %= maxHex; // max hex val
-		string hexValue = num.ToString("X");
-		hexValue += new string('0', hexLength - hexValue.Length);
-		return new Color(
-			int.Parse(hexValue.Substring(0,2), System.Globalization.NumberStyles.HexNumber) / 255.0f,
-			int.Parse(hexValue.Substring(2,2), System.Globalization.NumberStyles.HexNumber) / 255.0f,
-			int.Parse(hexValue.Substring(4,2), System.Globalization.NumberStyles.HexNumber) / 255.0f
-			);
-	}
-
     IEnumerator FireLaser()
     {
         particleSystem.enableEmission = true;
 		while (_acceptedKeyCodes.Any(Input.GetKey))
 		{
-			Color color = Hex2Col(_acceptedKeyCodes.Where(Input.GetKey).Sum(n => (int) n));
            //keep particle system going
             particleSystem.startSpeed = Speed;
-			particleSystem.startColor = color;
             RaycastHit hitter;
             Physics.Raycast(transform.parent.transform.position, transform.parent.transform.forward, out hitter, 10000);
             if (hitter.collider != null && hitter.collider.GetComponent<CyclopsEnemy>() != null)
