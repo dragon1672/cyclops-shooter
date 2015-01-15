@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using System.Collections;
 
 public class CyclopsEnemy : LaserHittable
@@ -17,16 +18,18 @@ public class CyclopsEnemy : LaserHittable
 	private float _timeSinceLastShot = 0;
 	private float _nextShotTime = -1;
 
-	void Awake()
-	{
-		//gameObject.SetActive(false);
-	}
-
 	public void GameStarted()
 	{
 		_activeInGame = true;
 		_currentDelay = DelayToStart;
+		StartCoroutine(StartMovement(DelayToStart));
+	}
+
+	private IEnumerator StartMovement(float waitTime)
+	{
+		yield return new WaitForSeconds(waitTime);
 		gameObject.SetActive(true);
+		GetComponentInChildren<MoveToTarget>().enabled = true;
 	}
 
 	// Update is called once per frame
@@ -58,11 +61,13 @@ public class CyclopsEnemy : LaserHittable
 	private void Shoot()
 	{
 		//random chance to hit player
-		BroadcastMessage("EnemyFiredShot");
+		//BroadcastMessage("EnemyFiredShot");
 	}
 
 	public override void OnDeath()
 	{
-
+		VisualGameObject.SetActive(false);
+		//destroyEffectObject.SetActive(true);
+		//Destroy(Instantiate(destroyEffectObject, enemy.transform.position, enemy.transform.rotation), destroyParicleAfter);
 	}
 }
