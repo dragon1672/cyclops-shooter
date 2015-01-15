@@ -28,14 +28,23 @@ public class LaserBeamScript : MonoBehaviour {
         //Turn Mouse Off
         Screen.lockCursor = true;
 
-		_acceptedKeyCodes =
-			Enum.GetValues(typeof (KeyCode)).Cast<KeyCode>().Except(new HashSet<KeyCode>() {
-				KeyCode.Escape,
-				KeyCode.LeftWindows,
-				KeyCode.KeypadEnter,
-				KeyCode.LeftShift,
-				KeyCode.RightShift,
-			}).ToList();
+		_acceptedKeyCodes = new List<KeyCode>()
+		{
+			KeyCode.Space,
+			KeyCode.X,
+			KeyCode.C,
+			KeyCode.V,
+			KeyCode.B,
+			KeyCode.N,
+			KeyCode.M,
+			KeyCode.Mouse0,
+			KeyCode.Mouse1,
+			KeyCode.Mouse2,
+			KeyCode.Mouse3,
+			KeyCode.Mouse4,
+			KeyCode.Mouse5,
+			KeyCode.Mouse6,
+		};
 	}
 	
 	// Update is called once per frame
@@ -57,14 +66,16 @@ public class LaserBeamScript : MonoBehaviour {
             particleSystem.startSpeed = Speed;
             RaycastHit hitter;
             Physics.Raycast(transform.parent.transform.position, transform.parent.transform.forward, out hitter, 10000);
-            if (hitter.collider != null && hitter.collider.GetComponent<CyclopsEnemy>() != null)
+            if (hitter.collider != null)
             {
-                destroyEffectObject.SetActive(true);
-                GameObject enemy = hitter.collider.gameObject;
-                Destroy(Instantiate(destroyEffectObject, enemy.transform.position, enemy.transform.rotation), destroyParicleAfter);
-                enemy.SetActive(false);
-            }
-            yield return null;
+	            LaserHittable hittable = hitter.collider.GetComponent<LaserHittable>();
+	            if (hittable != null)
+	            {
+		            hittable.DoDamage(1*Time.deltaTime);
+	            }
+			}
+			 
+     yield return null;
         }
         particleSystem.enableEmission = false;
     }
