@@ -30,7 +30,6 @@ public class GameStage : MonoBehaviour
 		if (!_activeInGame) return;
 		if (_players.All(n => n.IsDead))
 		{
-			Debug.Log("All Dead");
 			_activeInGame = false;
 			_myManager.Continue();
 		}

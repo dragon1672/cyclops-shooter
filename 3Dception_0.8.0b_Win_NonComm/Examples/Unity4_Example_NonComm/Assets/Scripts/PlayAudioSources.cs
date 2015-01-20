@@ -2,7 +2,20 @@
 using System.Collections;
 
 public class PlayAudioSources : MonoBehaviour {
-	
+
+	private static System.Random Rand = new System.Random();
+	private static readonly object syncLock = new object();
+
+	private static float RanInRange(float min, float max)
+	{
+		lock (syncLock) { return (float) (Rand.NextDouble()*(max - min) + min); }
+	}
+
+	private static int RanInRange(int min, int max)
+	{
+		lock (syncLock) { return (Rand.Next(max - min) + min); }
+	}
+
 	public AudioClip[] dialogue;
 	private GameObject dummyAudioObject;
 	private Vector3 newPosition;
@@ -27,17 +40,19 @@ public class PlayAudioSources : MonoBehaviour {
 	}
 
 	void playRandomDia() {
-		int i = Random.Range (0, 10);
+		int i = RanInRange(0, 10);
 		gameObject.GetComponent<TBE_3DCore.TBE_Source> ().PlayOneShot (dialogue [i]);
 		dummyAudioObject.audio.PlayOneShot (dialogue[i]);
 	}
 
 	void moveRobot() {
 
+		positionCounter += RanInRange(1,4);
+		float randomAddition = RanInRange(0.01f, 0.09f);
+		positionCounter %= 4;
 		positionCounter++;
-		float randomAddition = Random.Range (0.01f, 0.09f);
 		switch (positionCounter) {
-		case 1:
+		case 0:
 			newPosition = new Vector3(-2.32f, 4f, -14.387f);
 			break;
 		case 2:
@@ -53,7 +68,5 @@ public class PlayAudioSources : MonoBehaviour {
 			newPosition = new Vector3(-0.252f+randomAddition, 1.692f, -10.74f);
 			break;
 		}
-		if (positionCounter == 4)
-			positionCounter = 0;
 	}
 }

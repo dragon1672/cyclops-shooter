@@ -9,7 +9,7 @@ public class MoveToTarget : MonoBehaviour
 
 	public bool Complete
 	{
-		get { return transform.position == targetToMoveTo.transform.position; }
+		get { return targetToMoveTo == null || transform.position == targetToMoveTo.transform.position; }
 	}
 
 	void Awake()

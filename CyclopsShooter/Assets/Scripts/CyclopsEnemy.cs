@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using TBE_3DCore;
 using UnityEngine;
 using System.Collections;
 
@@ -22,6 +23,8 @@ public class CyclopsEnemy : LaserHittable
 	{
 		_activeInGame = true;
 		_currentDelay = DelayToStart;
+		_timeSinceLastShot = 0;
+		_nextShotTime = Random.Range(MinTimeBetweenShots, MaxTimeBetweenShots);
 		StartCoroutine(StartMovement(DelayToStart));
 	}
 
@@ -47,19 +50,28 @@ public class CyclopsEnemy : LaserHittable
 		{
 			if (_timeSinceLastShot >= _nextShotTime)
 			{
-				Shoot();
 				_timeSinceLastShot = 0;
+				_nextShotTime = Random.Range(MinTimeBetweenShots, MaxTimeBetweenShots);
+				Shoot();
 			}
-		}
-		else
-		{
-			_nextShotTime = Random.Range(MinTimeBetweenShots, MaxTimeBetweenShots);
 		}
 		_timeSinceLastShot += Time.deltaTime;
 	}
 
 	private void Shoot()
 	{
+		TBE_Source tbe_3DSound = GetComponent<TBE_Source>();
+		AudioSource unityAudio;
+		if (tbe_3DSound != null)
+		{
+			tbe_3DSound.PlayOneShot(tbe_3DSound.clip);
+			Debug.Log(gameObject.name+": Fire Played 3D");
+		}
+		else if ((unityAudio = GetComponent<AudioSource>()) != null)
+		{
+			unityAudio.PlayOneShot(unityAudio.clip);
+			Debug.Log(gameObject.name+": Fire Played Unity");
+		}
 		//random chance to hit player
 		//BroadcastMessage("EnemyFiredShot");
 	}
