@@ -9,6 +9,7 @@ public class CyclopsEnemy : LaserHittable
 	public AudioClip ShootAudioClip;
 	public float MinTimeBetweenShots;
 	public float MaxTimeBetweenShots;
+	public GameObject DestroyEffectObject;
 
 	/// <summary>
 	/// how long to wait after GameStart has been called
@@ -83,7 +84,7 @@ public class CyclopsEnemy : LaserHittable
 			Destroy(tbe_3DSound, tbe_3DSound.clip.length);
 		}
 		VisualGameObject.SetActive(false);
-		//destroyEffectObject.SetActive(true);
-		//Destroy(Instantiate(destroyEffectObject, enemy.transform.position, enemy.transform.rotation), destroyParicleAfter);
+		DestroyEffectObject.SetActive(true);
+		Instantiate(DestroyEffectObject, transform.position, transform.rotation);
 	}
 }
