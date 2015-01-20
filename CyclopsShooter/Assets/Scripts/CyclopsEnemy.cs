@@ -6,8 +6,10 @@ using System.Collections;
 public class CyclopsEnemy : LaserHittable
 {
 	public GameObject VisualGameObject = null;
+	public AudioClip ShootAudioClip;
 	public float MinTimeBetweenShots;
 	public float MaxTimeBetweenShots;
+
 	/// <summary>
 	/// how long to wait after GameStart has been called
 	/// </summary>
@@ -61,23 +63,25 @@ public class CyclopsEnemy : LaserHittable
 	private void Shoot()
 	{
 		TBE_Source tbe_3DSound = GetComponent<TBE_Source>();
-		AudioSource unityAudio;
-		if (tbe_3DSound != null)
+		if (tbe_3DSound == null)
 		{
-			tbe_3DSound.PlayOneShot(tbe_3DSound.clip);
-			Debug.Log(gameObject.name+": Fire Played 3D");
+			tbe_3DSound = gameObject.AddComponent<TBE_Source>();
+			tbe_3DSound.loop = false;
+			tbe_3DSound.clip = ShootAudioClip;
 		}
-		else if ((unityAudio = GetComponent<AudioSource>()) != null)
-		{
-			unityAudio.PlayOneShot(unityAudio.clip);
-			Debug.Log(gameObject.name+": Fire Played Unity");
-		}
+		tbe_3DSound.PlayOneShot(tbe_3DSound.clip);
+		Debug.Log(gameObject.name + ": Fire Played 3D");
 		//random chance to hit player
 		//BroadcastMessage("EnemyFiredShot");
 	}
 
 	public override void OnDeath()
 	{
+		TBE_Source tbe_3DSound = GetComponent<TBE_Source>();
+		if (tbe_3DSound != null)
+		{
+			Destroy(tbe_3DSound, tbe_3DSound.clip.length);
+		}
 		VisualGameObject.SetActive(false);
 		//destroyEffectObject.SetActive(true);
 		//Destroy(Instantiate(destroyEffectObject, enemy.transform.position, enemy.transform.rotation), destroyParicleAfter);
