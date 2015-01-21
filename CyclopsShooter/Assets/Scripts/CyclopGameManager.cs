@@ -8,22 +8,23 @@ public class CyclopGameManager : MonoBehaviour
 
     void Start()
     {
-        Rails.CompletedSection += () => {
-            var tmp = Player.GetComponent<CrouchMe>();
-            Debug.Log("Removing Component "+tmp);
-            if (tmp != null)
-            {
-                Destroy(tmp);
-                Debug.Log("Removing Component Done");
-            }
-        };
-        Rails.CompletedAll += () => {
-            Debug.Log("You win");
-        };
-        Rails.EnterSection += () => {
-            Debug.Log("Adding Component");
-            Player.gameObject.AddComponent<CrouchMe>();
-        };
+	    Rails.CompletedSection += () =>
+	    {
+		    var tmp = Player.GetComponent<CrouchMe>();
+		    if (tmp != null)
+		    {
+			    tmp.enabled = false;
+			    tmp.UnCrouch();
+		    }
+	    };
+	    Rails.CompletedAll += () => {
+			Debug.Log("You win");
+	    };
+	    Rails.EnterSection += () =>
+	    {
+		    var tmp = Player.GetComponent<CrouchMe>() ?? Player.gameObject.AddComponent<CrouchMe>();
+		    tmp.enabled = true;
+	    };
     }
 
 	public void Continue()

@@ -2,43 +2,64 @@
 using System.Collections;
 
 public class CrouchMe : MonoBehaviour {
-    public float changeHeightAmount = 1.0f;
-    public float speed = 4.0f;
-    private bool isCrouching;
-    private float originalY;
-    Vector3 offset;
-    Vector3 original;
-    void Start()
-    {
-        original = this.gameObject.transform.position;
-        originalY = original.y;
-    }
+    public float ChangeHeightAmount = 1.0f;
+    public float Speed = 4.0f;
+    
+	private bool _isCrouching;
+	private float _amountLeftToChange = 0;
+
+
 	// Update is called once per frame
 	void Update () {
         if(Input.GetButtonDown("Fire2"))
         {
-            original = new Vector3(this.gameObject.transform.position.x, originalY, this.gameObject.transform.position.z);
-            offset = new Vector3(0, -changeHeightAmount, 0);
-            isCrouching = true;
+	        CrouchDown();
         }
         else if (Input.GetButtonUp("Fire2"))
         {
-            offset = Vector3.zero;
-            isCrouching = false;
+	        UnCrouch();
         }
-        if (isCrouching)
-        {
-            if (this.gameObject.transform.position != original + offset)
-            {
-                this.gameObject.transform.position = Vector3.Lerp(this.gameObject.transform.position, original + offset, speed*Time.deltaTime);
-            }
-        }
-        else
-        {
-            if (this.gameObject.transform.position != original)
-            {
-                this.gameObject.transform.position = Vector3.Lerp(this.gameObject.transform.position, original, speed*Time.deltaTime);
-            }
-        }
+	}
+	public void CrouchDown()
+	{
+		if (_isCrouching) return;
+		_amountLeftToChange -= Mathf.Abs(ChangeHeightAmount);
+		StopAllCoroutines();
+		StartCoroutine(CrouchDownRoutine());
+	}
+
+	public void UnCrouch()
+	{
+		if (!_isCrouching) return;
+		_amountLeftToChange += Mathf.Abs(ChangeHeightAmount);
+		StopAllCoroutines();
+		StartCoroutine(UnCrouchRoutine());
+	}
+	private IEnumerator CrouchDownRoutine()
+	{
+		Debug.Log("Down Enter");
+		_isCrouching = true;
+		do
+		{
+			Debug.Log("Down " + _amountLeftToChange);
+			gameObject.transform.position -= new Vector3(0, Speed*Time.deltaTime, 0);
+			_amountLeftToChange += Speed*Time.deltaTime;
+			_amountLeftToChange = Mathf.Min(0, _amountLeftToChange);
+			yield return null;
+		} while (_amountLeftToChange < 0);
+	}
+
+	private IEnumerator UnCrouchRoutine()
+	{
+		Debug.Log("Up Enter");
+		_isCrouching = false;
+		do
+		{
+			Debug.Log("Up " + _amountLeftToChange);
+			gameObject.transform.position += new Vector3(0, Speed*Time.deltaTime, 0);
+			_amountLeftToChange -= Speed*Time.deltaTime;
+			_amountLeftToChange = Mathf.Max(0, _amountLeftToChange);
+			yield return null;
+		} while (_amountLeftToChange > 0);
 	}
 }
