@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CrouchMe : MonoBehaviour {
     public float changeHeightAmount = 1.0f;
-    public float speed = 2.0f;
+    public float speed = 4.0f;
     private bool isCrouching;
     private float originalY;
     Vector3 offset;

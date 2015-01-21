@@ -38,7 +38,7 @@ public class LaserBeamScript : MonoBehaviour {
 			KeyCode.N,
 			KeyCode.M,
 			KeyCode.Mouse0,
-			KeyCode.Mouse1,
+			//KeyCode.Mouse1,
 			KeyCode.Mouse2,
 			KeyCode.Mouse3,
 			KeyCode.Mouse4,
