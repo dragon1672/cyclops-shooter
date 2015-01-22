@@ -37,11 +37,9 @@ public class CrouchMe : MonoBehaviour {
 	}
 	private IEnumerator CrouchDownRoutine()
 	{
-		Debug.Log("Down Enter");
 		_isCrouching = true;
 		do
 		{
-			Debug.Log("Down " + _amountLeftToChange);
 			gameObject.transform.position -= new Vector3(0, Speed*Time.deltaTime, 0);
 			_amountLeftToChange += Speed*Time.deltaTime;
 			_amountLeftToChange = Mathf.Min(0, _amountLeftToChange);
@@ -51,11 +49,9 @@ public class CrouchMe : MonoBehaviour {
 
 	private IEnumerator UnCrouchRoutine()
 	{
-		Debug.Log("Up Enter");
 		_isCrouching = false;
 		do
 		{
-			Debug.Log("Up " + _amountLeftToChange);
 			gameObject.transform.position += new Vector3(0, Speed*Time.deltaTime, 0);
 			_amountLeftToChange -= Speed*Time.deltaTime;
 			_amountLeftToChange = Mathf.Max(0, _amountLeftToChange);

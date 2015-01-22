@@ -71,7 +71,6 @@ public class CyclopsEnemy : LaserHittable
 			tbe_3DSound.clip = ShootAudioClip;
 		}
 		tbe_3DSound.PlayOneShot(tbe_3DSound.clip);
-		Debug.Log(gameObject.name + ": Fire Played 3D");
 		//random chance to hit player
 		//BroadcastMessage("EnemyFiredShot");
 	}
