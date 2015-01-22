@@ -37,6 +37,9 @@ public class RailPointManager : MonoBehaviour
 		_allRailPoints = GameObject.FindGameObjectsWithTag(TagNameToGrabRailPoints);
 		_allRailPoints = _allRailPoints.OrderBy(n => GetIndexFromRailPointName(n.name)).ToArray();
 
+		if(_allRailPoints.Any(n=>n.GetComponent<RailPoint>()==null))
+			Debug.LogException(new UnityException("Rail Points have tag, but not Rail Point Script"));
+
 		if (enabled) Init();
 	}
 

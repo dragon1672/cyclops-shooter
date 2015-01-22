@@ -63,14 +63,7 @@ public class CyclopsEnemy : LaserHittable
 
 	private void Shoot()
 	{
-		TBE_Source tbe_3DSound = GetComponent<TBE_Source>();
-		if (tbe_3DSound == null)
-		{
-			tbe_3DSound = gameObject.AddComponent<TBE_Source>();
-			tbe_3DSound.loop = false;
-			tbe_3DSound.clip = ShootAudioClip;
-		}
-		tbe_3DSound.PlayOneShot(tbe_3DSound.clip);
+		GetComponent<AudioManager>().PlayClip(ShootAudioClip);
 		//random chance to hit player
 		//BroadcastMessage("EnemyFiredShot");
 	}
