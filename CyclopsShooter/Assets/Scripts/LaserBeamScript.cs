@@ -10,7 +10,9 @@ public class LaserBeamScript : MonoBehaviour {
     public string ButtonToFireLaser = "Fire1";
 
     public GameObject destroyEffectObject;
-    private float destroyParicleAfter = 1.0f;
+
+    public float laserInEffectCounter;
+    public const float Cooldown = 1.0f;
 
 	private List<KeyCode> _acceptedKeyCodes = new List<KeyCode>()
 	{
@@ -49,6 +51,10 @@ public class LaserBeamScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (_acceptedKeyCodes.Any(Input.GetKeyDown))
+        {
+            laserInEffectCounter = 0.0f;
+        }
 		if (_acceptedKeyCodes.Any(Input.GetKey))
         {
             //fail safe stop
@@ -60,8 +66,10 @@ public class LaserBeamScript : MonoBehaviour {
     IEnumerator FireLaser()
     {
         particleSystem.enableEmission = true;
-		while (_acceptedKeyCodes.Any(Input.GetKey))
+		while (_acceptedKeyCodes.Any(Input.GetKey) && laserInEffectCounter < Cooldown)
 		{
+            laserInEffectCounter += Time.deltaTime;
+            this.gameObject.audio.enabled = true;
            //keep particle system going
             particleSystem.startSpeed = Speed;
             RaycastHit hitter;
@@ -77,6 +85,8 @@ public class LaserBeamScript : MonoBehaviour {
 			 
      yield return null;
         }
+
+        this.gameObject.audio.enabled = false;
         particleSystem.enableEmission = false;
     }
 }
