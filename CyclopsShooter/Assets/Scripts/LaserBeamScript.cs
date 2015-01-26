@@ -11,8 +11,10 @@ public class LaserBeamScript : MonoBehaviour {
 
     public GameObject destroyEffectObject;
 
-    public float laserInEffectCounter;
-    public const float Cooldown = 1.0f;
+    private float laserInEffectCounter;
+    private const float LaserCooldown = 0.7f;
+    private const float TimeCooldown = 0.5f + LaserCooldown;
+    private bool firing;
 
 	private List<KeyCode> _acceptedKeyCodes = new List<KeyCode>()
 	{
@@ -29,6 +31,7 @@ public class LaserBeamScript : MonoBehaviour {
         Speed = 40f;
         //Turn Mouse Off
         Screen.lockCursor = true;
+        firing = false;
 
 		_acceptedKeyCodes = new List<KeyCode>()
 		{
@@ -51,27 +54,31 @@ public class LaserBeamScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (_acceptedKeyCodes.Any(Input.GetKeyDown))
+        if (_acceptedKeyCodes.Any(Input.GetKeyDown) && !firing)
         {
-            laserInEffectCounter = 0.0f;
+            if (laserInEffectCounter > TimeCooldown)
+            {
+                laserInEffectCounter = 0.0f;
+                firing = true;
+                StartCoroutine("FireLaser");
+            }
         }
-		if (_acceptedKeyCodes.Any(Input.GetKey))
+
+        if (!firing && laserInEffectCounter < TimeCooldown)
         {
-            //fail safe stop
-            StopCoroutine("FireLaser");
-            StartCoroutine("FireLaser");
+            laserInEffectCounter += Time.deltaTime;
         }
 	}
 
     IEnumerator FireLaser()
     {
         particleSystem.enableEmission = true;
-		while (_acceptedKeyCodes.Any(Input.GetKey) && laserInEffectCounter < Cooldown)
-		{
+        this.gameObject.audio.enabled = true;
+        particleSystem.startSpeed = Speed;
+        //continue firing laser
+		while (laserInEffectCounter < LaserCooldown)
+        {
             laserInEffectCounter += Time.deltaTime;
-            this.gameObject.audio.enabled = true;
-           //keep particle system going
-            particleSystem.startSpeed = Speed;
             RaycastHit hitter;
             Physics.Raycast(transform.parent.transform.position, transform.parent.transform.forward, out hitter, 10000);
             if (hitter.collider != null)
@@ -88,5 +95,6 @@ public class LaserBeamScript : MonoBehaviour {
 
         this.gameObject.audio.enabled = false;
         particleSystem.enableEmission = false;
+        firing = false;
     }
 }
