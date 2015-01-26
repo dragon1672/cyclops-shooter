@@ -10,6 +10,7 @@ public class CyclopsEnemy : LaserHittable
 	public float MinTimeBetweenShots;
 	public float MaxTimeBetweenShots;
 	public GameObject DestroyEffectObject;
+    public MovementPoint CurrentAIPoint;
 
 	/// <summary>
 	/// how long to wait after GameStart has been called
