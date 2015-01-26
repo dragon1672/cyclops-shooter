@@ -10,7 +10,7 @@ public class CyclopsEnemy : LaserHittable
 	public float MinTimeBetweenShots;
 	public float MaxTimeBetweenShots;
 	public GameObject DestroyEffectObject;
-    public MovementPoint CurrentAIPoint;
+    public AINode CurrentAIPoint;
 
 	/// <summary>
 	/// how long to wait after GameStart has been called
@@ -22,6 +22,11 @@ public class CyclopsEnemy : LaserHittable
 
 	private float _timeSinceLastShot = 0;
 	private float _nextShotTime = -1;
+
+    void Start()
+    {
+        GameStarted(); // ANTHONY DEBUGGING
+    }
 
 	public void GameStarted()
 	{
@@ -36,7 +41,7 @@ public class CyclopsEnemy : LaserHittable
 	{
 		yield return new WaitForSeconds(waitTime);
 		gameObject.SetActive(true);
-		GetComponentInChildren<MoveToTarget>().enabled = true;
+        CurrentAIPoint.EnterAction(this,null); // init AI
 	}
 
 	// Update is called once per frame
@@ -64,7 +69,7 @@ public class CyclopsEnemy : LaserHittable
 
 	private void Shoot()
 	{
-		GetComponent<AudioManager>().PlayClip(ShootAudioClip);
+		//GetComponent<AudioManager>().PlayClip(ShootAudioClip);
 		//random chance to hit player
 		//BroadcastMessage("EnemyFiredShot");
 	}
