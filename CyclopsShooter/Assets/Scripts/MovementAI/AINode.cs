@@ -35,13 +35,14 @@ public abstract class AINode : MonoBehaviour {
 	/// <param name="character">character acting on</param>
 	/// <param name="previousMovementPoint">movement script that everything came from</param>
 	public abstract void EnterAction(CyclopsEnemy character, AINode previousMovementPoint);
-    /// <summary>
-    /// Called when character first calls MoveToNewPoint
-    /// </summary>
-    /// <param name="character">character acting on</param>
-    public abstract void ExitAction(CyclopsEnemy character);
 
-    protected IEnumerator MoveToNewPointSpeed(CyclopsEnemy character, AINode pt, float movementSpeed, float angleSpeed, float delay = 0)
+	/// <summary>
+	/// Called when character first calls MoveToNewPoint
+	/// </summary>
+	/// <param name="character">character acting on</param>
+	public virtual void ExitAction(CyclopsEnemy character) { }
+
+	protected IEnumerator MoveToNewPointSpeed(CyclopsEnemy character, AINode pt, float movementSpeed, float angleSpeed, float delay = 0)
     {
 		yield return new WaitForSeconds(delay);
 		StartCoroutine(Movement(character, pt, movementDist => movementSpeed / movementDist, angleDist => angleSpeed / angleDist));

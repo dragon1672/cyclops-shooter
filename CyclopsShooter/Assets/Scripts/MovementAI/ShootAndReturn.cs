@@ -18,7 +18,6 @@ public class ShootAndReturn : AINode
 		StartCoroutine(DoShootAndReturn(character, previousMovementPoint));
 	}
 
-	public override void ExitAction(CyclopsEnemy character) { }
 	private IEnumerator DoShootAndReturn(CyclopsEnemy character, AINode previousMovementPoint)
 	{
 		float timeTillReturn = Random.Range(MinTimeToPeakHeadOut, MaxTimeToPeakHeadOut);

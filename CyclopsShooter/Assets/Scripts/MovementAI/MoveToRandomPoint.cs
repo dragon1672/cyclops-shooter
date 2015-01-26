@@ -11,6 +11,4 @@ public class MoveToRandomPoint : AINode
 	    AINode toMoveTo = To[Random.Range(0, To.Length)];
 		StartCoroutine(MoveToNewPointSpeed(character, toMoveTo, character.MovementSpeed * MovePercentBoost, character.AngleSpeed * AnglePercentBoost));
     }
-
-    public override void ExitAction(CyclopsEnemy character) { }
 }

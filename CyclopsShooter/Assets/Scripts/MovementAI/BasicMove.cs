@@ -13,6 +13,4 @@ public class BasicMove : AINode
     {
         StartCoroutine(MoveToNewPointSpeed(character, to, character.MovementSpeed * MovePercentBoost, character.AngleSpeed * AnglePercentBoost,Delay));
     }
-
-    public override void ExitAction(CyclopsEnemy character) { }
 }
