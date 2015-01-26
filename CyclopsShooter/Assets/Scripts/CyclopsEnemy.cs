@@ -20,11 +20,6 @@ public class CyclopsEnemy : LaserHittable
 
 	private bool _activeInGame = false;
 
-    void Start()
-    {
-        GameStarted(); // ANTHONY DEBUGGING
-    }
-
 	public void GameStarted()
 	{
 		StartCoroutine(StartMovement(DelayToStart));
@@ -46,6 +41,7 @@ public class CyclopsEnemy : LaserHittable
 
 	public void Shoot()
 	{
+		if (!_activeInGame) return;
 		Debug.Log("Shooting");
 		//GetComponent<AudioManager>().PlayClip(ShootAudioClip);
 		//random chance to hit player

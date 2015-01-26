@@ -98,7 +98,7 @@ public class OVRUGUI
     public static void RiftPresentGUI(GameObject GUIMainOBj)
     {
         RiftPresent = ComponentComposition(RiftPresent);
-        RiftPresent.transform.parent = GUIMainOBj.transform;
+        RiftPresent.transform.SetParent(GUIMainOBj.transform,false);
         RiftPresent.name = "RiftPresent";
 		RectTransform r = RiftPresent.GetComponent<RectTransform>();
         r.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
@@ -282,7 +282,7 @@ public class OVRUGUI
         text.GetComponent<Text>().font = (Font)Resources.Load("DINPro-Bold");
         text.GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
 
-        text.transform.parent = GO.transform;
+        text.transform.SetParent(GO.transform,false);
         text.name = "TextBox";
 
         return GO;
