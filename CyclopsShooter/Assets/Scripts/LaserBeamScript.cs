@@ -6,15 +6,15 @@ using System.Collections;
 
 public class LaserBeamScript : MonoBehaviour {
 
-    public ParticleSystem particleSystem;
+    public ParticleSystem LaserParticleSystem;
     public string ButtonToFireLaser = "Fire1";
 
-    public GameObject destroyEffectObject;
+    public GameObject DestroyEffectObject;
 
-    private float laserInEffectCounter;
+    private float _laserInEffectCounter;
     private const float LaserCooldown = 0.7f;
     private const float TimeCooldown = 0.5f + LaserCooldown;
-    private bool firing;
+    private bool _firing;
 
 	private List<KeyCode> _acceptedKeyCodes = new List<KeyCode>()
 	{
@@ -26,12 +26,12 @@ public class LaserBeamScript : MonoBehaviour {
     public float Speed{ get;set;}
 	// Use this for initialization
 	void Start () {
-        particleSystem.enableEmission = false;
-        destroyEffectObject.SetActive(false);
+        LaserParticleSystem.enableEmission = false;
+        DestroyEffectObject.SetActive(false);
         Speed = 40f;
         //Turn Mouse Off
         Screen.lockCursor = true;
-        firing = false;
+        _firing = false;
 
 		_acceptedKeyCodes = new List<KeyCode>()
 		{
@@ -54,31 +54,31 @@ public class LaserBeamScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (_acceptedKeyCodes.Any(Input.GetKeyDown) && !firing)
+        if (_acceptedKeyCodes.Any(Input.GetKeyDown) && !_firing)
         {
-            if (laserInEffectCounter > TimeCooldown)
+            if (_laserInEffectCounter > TimeCooldown)
             {
-                laserInEffectCounter = 0.0f;
-                firing = true;
+                _laserInEffectCounter = 0.0f;
+                _firing = true;
                 StartCoroutine("FireLaser");
             }
         }
 
-        if (!firing && laserInEffectCounter < TimeCooldown)
+        if (!_firing && _laserInEffectCounter < TimeCooldown)
         {
-            laserInEffectCounter += Time.deltaTime;
+            _laserInEffectCounter += Time.deltaTime;
         }
 	}
 
     IEnumerator FireLaser()
     {
-        particleSystem.enableEmission = true;
+        LaserParticleSystem.enableEmission = true;
         this.gameObject.audio.enabled = true;
-        particleSystem.startSpeed = Speed;
+        LaserParticleSystem.startSpeed = Speed;
         //continue firing laser
-		while (laserInEffectCounter < LaserCooldown)
+		while (_laserInEffectCounter < LaserCooldown)
         {
-            laserInEffectCounter += Time.deltaTime;
+            _laserInEffectCounter += Time.deltaTime;
             RaycastHit hitter;
             Physics.Raycast(transform.parent.transform.position, transform.parent.transform.forward, out hitter, 10000);
             if (hitter.collider != null)
@@ -94,7 +94,7 @@ public class LaserBeamScript : MonoBehaviour {
         }
 
         this.gameObject.audio.enabled = false;
-        particleSystem.enableEmission = false;
-        firing = false;
+        LaserParticleSystem.enableEmission = false;
+        _firing = false;
     }
 }

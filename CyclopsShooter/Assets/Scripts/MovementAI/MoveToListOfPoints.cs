@@ -18,7 +18,6 @@ public class MoveToListOfPoints : AINode
 
 	public override void EditorUpdate()
 	{
-		Debug.Log("wat" + Nodes.Length);
 		foreach (var node in Nodes)
 		{
 			Debug.DrawLine(transform.position, node.transform.position, Color.yellow);
