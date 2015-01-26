@@ -70,7 +70,7 @@ public class GameControl : MonoBehaviour
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(Application.persistentDataPath + "/" + fileName, FileMode.Open);
 
-            String content = (String)bf.Deserialize(file);
+            //String content = (String)bf.Deserialize(file);
             file.Close();
 
             WasLoaded = AbleToLoadGame = true;

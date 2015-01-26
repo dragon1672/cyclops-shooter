@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 using System;
 using System.Collections;
 
-
+[ExecuteInEditMode()]
 public abstract class AINode : MonoBehaviour {
 
 #if UNITY_EDITOR
@@ -23,11 +24,23 @@ public abstract class AINode : MonoBehaviour {
 	}
 #endif
 
-
 	public virtual void Awake () { }
 	public virtual void Start() { }
-	
-	public virtual void Update () { }
+
+	public void Update() {
+		if (!Application.isPlaying)
+		{
+			EditorUpdate();
+		}
+		else
+		{
+			GameUpdate();
+		}
+	}
+
+	public virtual void EditorUpdate() { }
+	public virtual void GameUpdate() { }
+
 
 	/// <summary>
 	/// Called when Character completed MoveToNewPoint

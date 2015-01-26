@@ -13,4 +13,15 @@ public class BasicMove : AINode
     {
         StartCoroutine(MoveToNewPointSpeed(character, to, character.MovementSpeed * MovePercentBoost, character.AngleSpeed * AnglePercentBoost,Delay));
     }
+
+	public override void EditorUpdate()
+	{
+		if (to != null)
+		{
+			Debug.DrawLine(transform.position, to.transform.position, Color.cyan);
+		}
+		else
+		{
+		}
+	}
 }
