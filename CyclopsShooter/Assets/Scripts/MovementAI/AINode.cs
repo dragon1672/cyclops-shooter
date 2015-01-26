@@ -21,14 +21,14 @@ public abstract class AINode : MonoBehaviour {
     /// <param name="character">character acting on</param>
     public abstract void ExitAction(CyclopsEnemy character);
 
-    protected IEnumerator MoveToNewPointSpeed(CyclopsEnemy character, AINode pt, float movementSpeed, float angleSpeed)
+    protected IEnumerator MoveToNewPointSpeed(CyclopsEnemy character, AINode pt, float movementSpeed, float angleSpeed, float delay = 0)
     {
-		yield return null;
+		yield return new WaitForSeconds(delay);
 		StartCoroutine(Movement(character, pt, movementDist => movementSpeed / movementDist, angleDist => angleSpeed / angleDist));
 	}
-    protected IEnumerator MoveToNewPointPercent(CyclopsEnemy character, AINode pt, float movementTime, float angleTime)
+    protected IEnumerator MoveToNewPointPercent(CyclopsEnemy character, AINode pt, float movementTime, float angleTime, float delay = 0)
     {
-	    yield return null;
+		yield return new WaitForSeconds(delay);
         StartCoroutine(Movement(character, pt, movementDist => 1 / movementTime, angleDist => 1 / angleTime));
     }
     private IEnumerator Movement(CyclopsEnemy character, AINode pt, Func<float,float> distPercentFun, Func<float, float> anglePercentFun)
