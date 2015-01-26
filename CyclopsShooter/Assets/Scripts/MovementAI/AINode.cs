@@ -2,7 +2,27 @@
 using System;
 using System.Collections;
 
+
 public abstract class AINode : MonoBehaviour {
+
+#if UNITY_EDITOR
+	private void Reset()
+	{
+		AINode oldItem = GetComponent<AINode>();
+		if (oldItem == null || oldItem == this) return;
+
+		if (UnityEditor.EditorUtility.DisplayDialog("Component already exists", "Do you want to replace it?",
+			"Ok, replace it", "No, thanks!"))
+		{
+			gameObject.AddComponent<DeleteComponent>().componentReference = oldItem;
+		}
+		else
+		{
+			gameObject.AddComponent<DeleteComponent>().componentReference = this;
+		}
+	}
+#endif
+
 
 	public virtual void Awake () { }
 	public virtual void Start() { }

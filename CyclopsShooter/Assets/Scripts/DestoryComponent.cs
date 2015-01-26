@@ -1,0 +1,14 @@
+﻿using UnityEngine;
+using System.Collections;
+
+[ExecuteInEditMode()]
+public class DeleteComponent : MonoBehaviour
+{
+	public Component componentReference = null;
+
+	private void Start()
+	{
+		if (componentReference != null) DestroyImmediate(componentReference);
+		DestroyImmediate(this);
+	}
+}
