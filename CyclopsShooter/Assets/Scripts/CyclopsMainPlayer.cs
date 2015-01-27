@@ -45,6 +45,14 @@ public class CyclopsMainPlayer : MonoBehaviour
 		_currentHealthRegenDelay -= Time.deltaTime;
 	}
 
+	void EnemyFiredShot()
+	{
+		if (Random.Range(0, 100) < 30)
+		{
+			DoDamage(1);
+		}
+	}
+
 
 	void DoDamage(float points)
 	{

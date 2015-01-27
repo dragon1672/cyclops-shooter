@@ -43,9 +43,9 @@ public class CyclopsEnemy : LaserHittable
 	{
 		if (!_activeInGame) return;
 		Debug.Log("Shooting");
-		//GetComponent<AudioManager>().PlayClip(ShootAudioClip);
+		GetComponent<AudioManager>().PlayClip(ShootAudioClip);
 		//random chance to hit player
-		//BroadcastMessage("EnemyFiredShot");
+		BroadcastMessage("EnemyFiredShot");
 	}
 
 	public override void OnDeath()
