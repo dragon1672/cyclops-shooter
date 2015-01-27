@@ -57,6 +57,7 @@ public class CyclopsEnemy : LaserHittable
 			Destroy(tbe_3DSound, tbe_3DSound.clip.length);
 		}
 		VisualGameObject.SetActive(false);
+		_activeInGame = false;
 		DestroyEffectObject.SetActive(true);
 		Instantiate(DestroyEffectObject, transform.position, transform.rotation);
 	}

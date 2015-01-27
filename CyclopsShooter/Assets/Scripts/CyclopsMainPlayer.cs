@@ -32,11 +32,10 @@ public class CyclopsMainPlayer : MonoBehaviour
 
 	public VoidAction OnDeathEvent = null;
 
-	// Use this for initialization
 	void Start ()
 	{
-		Debug.Log(gameObject.name);
 		HealthPercent = 1;
+		DoDamage(.01f);
 	}
 	
 	// Update is called once per frame
