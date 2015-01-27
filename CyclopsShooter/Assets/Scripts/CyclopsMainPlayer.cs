@@ -9,7 +9,16 @@ public class CyclopsMainPlayer : MonoBehaviour
 	public float HealthRegenPercentPerSecond = 0;
 	public float HealthRegenDelay = 1;
 	private float _currentHealthRegenDelay;
-	public float HealthPoints { get; private set; }
+	private float _healthPoints;
+
+	public VisualHealth VisualEffect;
+	public float HealthPoints {
+		get { return _healthPoints; }
+		private set {
+			_healthPoints = value;
+			VisualEffect.Alpha = 1 / _healthPoints;
+		}
+	}
 	public float HealthPercent
 	{
 		get { return HealthPoints / MaxHealth; }
@@ -26,6 +35,7 @@ public class CyclopsMainPlayer : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		Debug.Log(gameObject.name);
 		HealthPercent = 1;
 	}
 	
@@ -45,7 +55,7 @@ public class CyclopsMainPlayer : MonoBehaviour
 		_currentHealthRegenDelay -= Time.deltaTime;
 	}
 
-	void EnemyFiredShot()
+	public void EnemyFiredShot()
 	{
 		if (Random.Range(0, 100) < 30)
 		{

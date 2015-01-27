@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class VisualHealth : MonoBehaviour {
-
+	[SerializeField]
     private CanvasGroup _healthCanvas;
     public float Alpha{
 	    get { return _healthCanvas.alpha;  }
@@ -10,7 +10,6 @@ public class VisualHealth : MonoBehaviour {
     }
 	// Use this for initialization
 	void Start () {
-        _healthCanvas = gameObject.GetComponent<CanvasGroup>();
         Alpha = 1.0f;
 	}
 }
