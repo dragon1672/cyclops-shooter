@@ -9,8 +9,6 @@ public class LaserBeamScript : MonoBehaviour {
     public ParticleSystem LaserParticleSystem;
     public string ButtonToFireLaser = "Fire1";
 
-    public GameObject DestroyEffectObject;
-
     private float _laserInEffectCounter;
     private const float LaserCooldown = 0.7f;
     private const float TimeCooldown = 0.5f + LaserCooldown;
@@ -27,7 +25,6 @@ public class LaserBeamScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         LaserParticleSystem.enableEmission = false;
-        DestroyEffectObject.SetActive(false);
         Speed = 40f;
         //Turn Mouse Off
         Screen.lockCursor = true;
