@@ -9,14 +9,14 @@ public class CyclopsMainPlayer : MonoBehaviour
 	public float HealthRegenPercentPerSecond = 0;
 	public float HealthRegenDelay = 1;
 	private float _currentHealthRegenDelay;
-	private float _healthPoints;
+	public float _healthPoints;
 
 	public VisualHealth VisualEffect;
 	public float HealthPoints {
 		get { return _healthPoints; }
 		private set {
 			_healthPoints = value;
-			VisualEffect.Alpha = 1 / _healthPoints;
+			VisualEffect.Alpha = 1-HealthPercent;
 		}
 	}
 	public float HealthPercent
@@ -59,6 +59,7 @@ public class CyclopsMainPlayer : MonoBehaviour
 	{
 		if (Random.Range(0, 100) < 30)
 		{
+			Debug.Log("Hit");
 			DoDamage(1);
 		}
 	}
@@ -73,5 +74,8 @@ public class CyclopsMainPlayer : MonoBehaviour
 		if (!IsDead) return;
 
 		if (OnDeathEvent != null) OnDeathEvent();
+		Debug.Log("Dead");
+		Application.Quit();
+		UnityEditor.EditorApplication.isPlaying = false;
 	}
 }
