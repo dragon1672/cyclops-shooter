@@ -45,7 +45,8 @@ public class CyclopsEnemy : LaserHittable
 		Debug.Log("Shooting");
 		GetComponent<AudioManager>().PlayClip(ShootAudioClip);
 		//random chance to hit player
-		GameObject.FindObjectOfType<CyclopsMainPlayer>().EnemyFiredShot();
+		if(FindObjectOfType<CyclopsMainPlayer>()!= null)
+			FindObjectOfType<CyclopsMainPlayer>().EnemyFiredShot();
 		//BroadcastMessage("EnemyFiredShot");
 	}
 

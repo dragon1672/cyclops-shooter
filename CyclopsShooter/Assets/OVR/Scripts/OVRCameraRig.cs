@@ -140,20 +140,12 @@ public class OVRCameraRig : MonoBehaviour
 
 		if (leftEyeCamera == null)
 		{
-			leftEyeCamera = leftEyeAnchor.GetComponent<Camera>();
-			if (leftEyeCamera == null)
-			{
-				leftEyeCamera = leftEyeAnchor.gameObject.AddComponent<Camera>();
-			}
+			leftEyeCamera = leftEyeAnchor.GetComponent<Camera>() ?? leftEyeAnchor.gameObject.AddComponent<Camera>();
 		}
 
 		if (rightEyeCamera == null)
 		{
-			rightEyeCamera = rightEyeAnchor.GetComponent<Camera>();
-			if (rightEyeCamera == null)
-			{
-				rightEyeCamera = rightEyeAnchor.gameObject.AddComponent<Camera>();
-			}
+			rightEyeCamera = rightEyeAnchor.GetComponent<Camera>() ?? rightEyeAnchor.gameObject.AddComponent<Camera>();
 		}
 	}
 
