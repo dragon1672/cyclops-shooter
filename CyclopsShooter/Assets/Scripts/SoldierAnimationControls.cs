@@ -50,6 +50,18 @@ public class SoldierAnimationControls : MonoBehaviour {
         set { _animator.SetBool("IsTurningRight", value); }
     }
 
+    public bool IsShooting
+    {
+        get { return _animator.GetBool("IsShooting"); }
+        set { _animator.SetBool("IsShooting", value); }
+    }
+
+    public bool IsDead
+    {
+        get { return _animator.GetBool("IsDead"); }
+        set { _animator.SetBool("IsDead", value); }
+    }
+
     void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -59,6 +71,7 @@ public class SoldierAnimationControls : MonoBehaviour {
         originalPos = this.gameObject.transform.position;
     }
 
+    /*
     void Update()
     {
        // this.gameObject.transform.position = originalPos;
@@ -144,5 +157,5 @@ public class SoldierAnimationControls : MonoBehaviour {
     {
         Vector3 currentPos = this.gameObject.transform.root.position;
         this.gameObject.transform.root.position = new Vector3(currentPos.x, originalY, currentPos.z);
-    }
+    }*/
 }
