@@ -145,9 +145,4 @@ public class SoldierAnimationControls : MonoBehaviour {
         Vector3 currentPos = this.gameObject.transform.root.position;
         this.gameObject.transform.root.position = new Vector3(currentPos.x, originalY, currentPos.z);
     }
-
-    void deleteGameObject()
-    {
-        Destroy(this.gameObject);
-    }
 }
