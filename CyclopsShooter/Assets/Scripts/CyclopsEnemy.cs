@@ -10,7 +10,10 @@ public class CyclopsEnemy : LaserHittable
 	public GameObject DestroyEffectObject;
     public AINode CurrentAIPoint;
 
+	public AudioClip[] InitSoundsClips;
+
 	private CyclopsMainPlayer _mainPlayer;
+	private AudioManager _audioManager;
 
 	public float MovementSpeed = 2;
 	public float AngleSpeed = 30;
@@ -26,6 +29,7 @@ public class CyclopsEnemy : LaserHittable
 	{
 		StartCoroutine(StartMovement(DelayToStart));
 		_mainPlayer = FindObjectOfType<CyclopsMainPlayer>();
+		_audioManager = GetComponent<AudioManager>() ?? gameObject.AddComponent<AudioManager>();
 	}
 
 	private IEnumerator StartMovement(float waitTime)
@@ -33,6 +37,10 @@ public class CyclopsEnemy : LaserHittable
 		yield return new WaitForSeconds(waitTime);
 		_activeInGame = true;
 		gameObject.SetActive(true);
+		if (InitSoundsClips.Length > 0)
+		{
+			_audioManager.PlayClip(InitSoundsClips[Random.Range(0,InitSoundsClips.Length)]);
+		}
         CurrentAIPoint.EnterAction(this,null); // init AI
 	}
 
@@ -46,20 +54,13 @@ public class CyclopsEnemy : LaserHittable
 	{
 		if (!_activeInGame) return;
 		Debug.Log("Shooting");
-		GetComponent<AudioManager>().PlayClip(ShootAudioClip);
-		//random chance to hit player
+		_audioManager.PlayClip(ShootAudioClip);
 		if (_mainPlayer != null)
-			_mainPlayer.EnemyFiredShot();
-		//BroadcastMessage("EnemyFiredShot");
+			_mainPlayer.EnemyFiredShot(); //random chance to hit player
 	}
 
 	public override void OnDeath()
 	{
-		TBE_Source tbe_3DSound = GetComponent<TBE_Source>();
-		if (tbe_3DSound != null)
-		{
-			Destroy(tbe_3DSound, tbe_3DSound.clip.length);
-		}
 		VisualGameObject.SetActive(false);
 		_activeInGame = false;
 		DestroyEffectObject.SetActive(true);
