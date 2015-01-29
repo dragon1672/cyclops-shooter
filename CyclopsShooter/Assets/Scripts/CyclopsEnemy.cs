@@ -10,6 +10,8 @@ public class CyclopsEnemy : LaserHittable
 	public GameObject DestroyEffectObject;
     public AINode CurrentAIPoint;
 
+	private CyclopsMainPlayer _mainPlayer;
+
 	public float MovementSpeed = 2;
 	public float AngleSpeed = 30;
 
@@ -23,6 +25,7 @@ public class CyclopsEnemy : LaserHittable
 	public void GameStarted()
 	{
 		StartCoroutine(StartMovement(DelayToStart));
+		_mainPlayer = FindObjectOfType<CyclopsMainPlayer>();
 	}
 
 	private IEnumerator StartMovement(float waitTime)
@@ -45,8 +48,8 @@ public class CyclopsEnemy : LaserHittable
 		Debug.Log("Shooting");
 		GetComponent<AudioManager>().PlayClip(ShootAudioClip);
 		//random chance to hit player
-		if(FindObjectOfType<CyclopsMainPlayer>()!= null)
-			FindObjectOfType<CyclopsMainPlayer>().EnemyFiredShot();
+		if (_mainPlayer != null)
+			_mainPlayer.EnemyFiredShot();
 		//BroadcastMessage("EnemyFiredShot");
 	}
 
