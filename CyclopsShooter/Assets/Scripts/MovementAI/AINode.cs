@@ -6,10 +6,12 @@ using System.Collections;
 [ExecuteInEditMode()]
 public abstract class AINode : MonoBehaviour {
 
+    SoldierAnimationControls AniControls;
 #if UNITY_EDITOR
 	private void Reset()
 	{
 		AINode oldItem = GetComponent<AINode>();
+
 		if (oldItem == null || oldItem == this) return;
 
 		if (UnityEditor.EditorUtility.DisplayDialog("Component already exists", "Do you want to replace it?",
@@ -67,7 +69,14 @@ public abstract class AINode : MonoBehaviour {
     }
     private IEnumerator Movement(CyclopsEnemy character, AINode pt, Func<float,float> distPercentFun, Func<float, float> anglePercentFun)
     {
+        if (AniControls == null)
+        {
+            AniControls = character.GetComponent<SoldierAnimationControls>();
+        }
+
         ExitAction(character);
+        AniControls.IsWalking = true;
+        Debug.Log("Walk");
         float distance, angleDist;
         while ((distance = (pt.transform.position - character.transform.position).magnitude) > .001 | (angleDist = Quaternion.Angle(pt.transform.rotation, character.transform.rotation)) > .001)
         {
@@ -81,6 +90,8 @@ public abstract class AINode : MonoBehaviour {
         character.transform.position = pt.transform.position;
         character.transform.rotation = pt.transform.rotation;
         character.CurrentAIPoint = pt;
+        AniControls.IsWalking = false;
+        Debug.Log("Stop Walking");
         pt.EnterAction(character,this);
     }
 }
