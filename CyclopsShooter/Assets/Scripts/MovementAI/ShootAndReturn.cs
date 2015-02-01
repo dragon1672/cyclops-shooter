@@ -15,20 +15,27 @@ public class ShootAndReturn : AINode
 
 	public override void EnterAction(CyclopsEnemy character, AINode previousMovementPoint)
 	{
+        //Animation for shooting
+        if (!character.AC.IsJumping)
+        {
+            character.AC.setAllAnimationsFalse();
+            character.AC.IsJumping = true;
+        }
 		StartCoroutine(DoShootAndReturn(character, previousMovementPoint));
 	}
 
 	private IEnumerator DoShootAndReturn(CyclopsEnemy character, AINode previousMovementPoint)
 	{
 		float timeTillReturn = Random.Range(MinTimeToPeakHeadOut, MaxTimeToPeakHeadOut);
-		float timeTillShoot;
+        float timeTillShoot;
+
 		while ((timeTillShoot = Random.Range(MinTimeBetweenShoot, MaxTimeBetweenShoot)) < timeTillReturn)
 		{
 			yield return new WaitForSeconds(timeTillShoot);
 			timeTillReturn -= timeTillShoot;
 			character.Shoot();
 		}
-		yield return new WaitForSeconds(timeTillReturn);
+        yield return new WaitForSeconds(timeTillReturn);
 		StartCoroutine(MoveToNewPointSpeed(character, previousMovementPoint, character.MovementSpeed * MoveSpeedBoost, character.AngleSpeed * AngleSpeedBoost));
 	}
 }

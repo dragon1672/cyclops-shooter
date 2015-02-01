@@ -11,6 +11,13 @@ public class BasicMove : AINode
 
     public override void EnterAction(CyclopsEnemy character, AINode previousMovementPoint)
     {
+        //Animation for walking
+        if (!character.AC.IsWalking)
+        {
+            character.AC.setAllAnimationsFalse();
+            character.AC.IsWalking = true;
+        }
+
         StartCoroutine(MoveToNewPointSpeed(character, to, character.MovementSpeed * MovePercentBoost, character.AngleSpeed * AnglePercentBoost,Delay));
     }
 
