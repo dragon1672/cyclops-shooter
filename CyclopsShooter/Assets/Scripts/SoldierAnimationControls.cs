@@ -62,6 +62,11 @@ public class SoldierAnimationControls : MonoBehaviour {
         set { _animator.SetBool("IsDead", value); }
     }
 
+    public void setAllAnimationsFalse()
+    {
+        IsWalking = IsJumping = IsStrafingRight = IsStrafingLeft = IsTurningRight = IsTurningLeft = IsShooting = IsDead = false;
+    }
+
     void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -70,92 +75,4 @@ public class SoldierAnimationControls : MonoBehaviour {
         originalY = originalRootPos.y;
         originalPos = this.gameObject.transform.position;
     }
-
-    /*
-    void Update()
-    {
-       // this.gameObject.transform.position = originalPos;
-        transformCharacterByAnimatingBooleans();
-    }
-
-    void transformCharacterByAnimatingBooleans()
-    {
-        if (!checkTurning())
-        {
-            checkWalking();
-        }
-        if (!(IsTurningLeft || IsTurningRight || IsWalking))
-        {
-            //hardResetY();
-        }
-    }
-
-    bool checkTurning()
-    {
-        bool turned = false;
-        Vector3 currentRotation = this.gameObject.transform.root.rotation.eulerAngles;
-        float yDiff = lastKnownRotation.y - currentRotation.y;
-        if (lastKnownRotation != currentRotation && Mathf.Abs(yDiff) > turnThreshold)
-        {
-            if (yDiff > 0)
-            {
-                IsTurningLeft = true;
-            }
-            else
-            {
-                IsTurningRight = true;
-            }
-            turned = true;
-        }
-        else
-        {
-            IsTurningRight = false;
-            IsTurningLeft = false;
-        }
-        lastKnownRotation = currentRotation;
-        return turned;
-    }
-
-    bool checkWalking()
-    {
-        bool walked = false;
-        Vector3 currentPos = this.gameObject.transform.root.position;
-        float xDiff = lastKnownPosition.x - currentPos.x;
-        float zDiff = lastKnownPosition.z - currentPos.z;
-        if (lastKnownPosition != currentPos && (Mathf.Abs(xDiff) > moveThreshold || Mathf.Abs(zDiff) > moveThreshold))
-        {
-            if (zDiff > 0)
-            {
-                IsWalking = true;
-            }
-            else if (zDiff < 0)
-            {
-                IsTurningLeft = true;
-            }
-            if (xDiff > 0)
-            {
-                IsStrafingRight = true;
-            }
-            else if (xDiff < 0)
-            {
-                IsStrafingLeft = true;
-            }
-            walked = true;
-        }
-        else
-        {
-            IsStrafingLeft = false;
-            IsStrafingRight = false;
-            IsTurningLeft = false;
-            IsWalking = false;
-        }
-        lastKnownPosition = currentPos;
-        return walked;
-    }
-
-    void hardResetY()
-    {
-        Vector3 currentPos = this.gameObject.transform.root.position;
-        this.gameObject.transform.root.position = new Vector3(currentPos.x, originalY, currentPos.z);
-    }*/
 }
