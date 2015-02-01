@@ -3,12 +3,15 @@ using TBE_3DCore;
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(SoldierAnimationControls))]
+[RequireComponent(typeof(CyclopsMainPlayer))]
 public class CyclopsEnemy : LaserHittable
 {
 	public GameObject VisualGameObject = null;
 	public AudioClip ShootAudioClip;
 	public GameObject DestroyEffectObject;
     public AINode CurrentAIPoint;
+    public SoldierAnimationControls AC { get; private set; }
 
 	public AudioClip[] InitSoundsClips;
 
@@ -30,6 +33,7 @@ public class CyclopsEnemy : LaserHittable
 		StartCoroutine(StartMovement(DelayToStart));
 		_mainPlayer = FindObjectOfType<CyclopsMainPlayer>();
 		_audioManager = GetComponent<AudioManager>() ?? gameObject.AddComponent<AudioManager>();
+        AC = GetComponent<SoldierAnimationControls>(); 
 	}
 
 	private IEnumerator StartMovement(float waitTime)
