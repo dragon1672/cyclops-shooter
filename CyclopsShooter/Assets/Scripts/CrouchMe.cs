@@ -3,9 +3,9 @@ using System.Collections;
 
 public class CrouchMe : MonoBehaviour {
     public float ChangeHeightAmount = 1.0f;
-    public float Speed = 4.0f;
-    
-	private bool _isCrouching;
+	public float Speed = 4.0f;
+
+	public bool IsCrouching { get; private set; }
 	private float _amountLeftToChange = 0;
 
 
@@ -22,7 +22,7 @@ public class CrouchMe : MonoBehaviour {
 	}
 	public void CrouchDown()
 	{
-		if (_isCrouching) return;
+		if (IsCrouching) return;
 		_amountLeftToChange -= Mathf.Abs(ChangeHeightAmount);
 		StopAllCoroutines();
 		StartCoroutine(CrouchDownRoutine());
@@ -30,14 +30,14 @@ public class CrouchMe : MonoBehaviour {
 
 	public void UnCrouch()
 	{
-		if (!_isCrouching) return;
+		if (!IsCrouching) return;
 		_amountLeftToChange += Mathf.Abs(ChangeHeightAmount);
 		StopAllCoroutines();
 		StartCoroutine(UnCrouchRoutine());
 	}
 	private IEnumerator CrouchDownRoutine()
 	{
-		_isCrouching = true;
+		IsCrouching = true;
 		do
 		{
 			gameObject.transform.position -= new Vector3(0, Speed*Time.deltaTime, 0);
@@ -49,7 +49,7 @@ public class CrouchMe : MonoBehaviour {
 
 	private IEnumerator UnCrouchRoutine()
 	{
-		_isCrouching = false;
+		IsCrouching = false;
 		do
 		{
 			gameObject.transform.position += new Vector3(0, Speed*Time.deltaTime, 0);

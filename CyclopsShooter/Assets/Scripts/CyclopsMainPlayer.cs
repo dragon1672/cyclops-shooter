@@ -1,15 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.ComponentModel;
 
 
-
+[RequireComponent(typeof(CrouchMe))]
 public class CyclopsMainPlayer : MonoBehaviour
 {
 	public float MaxHealth = 3;
 	public float HealthRegenPercentPerSecond = 0;
 	public float HealthRegenDelay = 1;
 	private float _currentHealthRegenDelay;
-	public float _healthPoints;
+
+	[Range(0,100)] public float DamageChance = 30;
+	public float DamageAmount= .5f;
+	[SerializeField]
+	private float _healthPoints;
 
 	public VisualHealth VisualEffect;
 	public float HealthPoints {
@@ -32,8 +37,11 @@ public class CyclopsMainPlayer : MonoBehaviour
 
 	public VoidAction OnDeathEvent = null;
 
+	private CrouchMe crouchScript;
+
 	void Start ()
 	{
+		crouchScript = GetComponent<CrouchMe>();
 		HealthPercent = 1;
 		DoDamage(.01f);
 	}
@@ -56,10 +64,13 @@ public class CyclopsMainPlayer : MonoBehaviour
 
 	public void EnemyFiredShot()
 	{
-		if (Random.Range(0, 100) < 30)
+		if (Random.Range(0, 100) < DamageChance)
 		{
-			Debug.Log("Hit");
-			DoDamage(.5f);
+			if (!crouchScript || Random.Range(0, 1) <= .5)
+			{
+				Debug.Log("Hit");
+				DoDamage(DamageAmount);
+			}
 		}
 	}
 

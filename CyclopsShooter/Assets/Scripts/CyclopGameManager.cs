@@ -5,16 +5,17 @@ public class CyclopGameManager : MonoBehaviour
 {
 	public CyclopsMainPlayer Player;
 	public RailSystem Rails;
+	private CrouchMe _crouchScript;
 
     void Start()
     {
+	    _crouchScript = Player.GetComponent<CrouchMe>();
 	    Rails.CompletedSection += () =>
 	    {
-		    var tmp = Player.GetComponent<CrouchMe>();
-		    if (tmp != null)
+		    if (_crouchScript != null)
 		    {
-			    tmp.enabled = false;
-			    tmp.UnCrouch();
+			    _crouchScript.enabled = false;
+			    _crouchScript.UnCrouch();
 		    }
 	    };
 	    Rails.CompletedAll += () => {
@@ -22,8 +23,7 @@ public class CyclopGameManager : MonoBehaviour
 	    };
 	    Rails.EnterSection += () =>
 	    {
-		    var tmp = Player.GetComponent<CrouchMe>() ?? Player.gameObject.AddComponent<CrouchMe>();
-		    tmp.enabled = true;
+		    _crouchScript.enabled = true;
 	    };
     }
 
