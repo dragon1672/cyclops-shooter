@@ -14,6 +14,8 @@ public class LaserBeamScript : MonoBehaviour {
     private const float TimeCooldown = 0.5f + LaserCooldown;
     private bool _firing;
 
+	private AudioSource aud;
+
 	private List<KeyCode> _acceptedKeyCodes = new List<KeyCode>()
 	{
 		KeyCode.Space, // main attack
@@ -29,6 +31,8 @@ public class LaserBeamScript : MonoBehaviour {
         //Turn Mouse Off
         Screen.lockCursor = true;
         _firing = false;
+
+		aud = GetComponent<AudioSource>();
 
 		_acceptedKeyCodes = new List<KeyCode>()
 		{
@@ -72,24 +76,25 @@ public class LaserBeamScript : MonoBehaviour {
         LaserParticleSystem.enableEmission = true;
         this.gameObject.audio.enabled = true;
         LaserParticleSystem.startSpeed = Speed;
-        //continue firing laser
+		aud.Play();
+		//continue firing laser
 		while (_laserInEffectCounter < LaserCooldown)
         {
             _laserInEffectCounter += Time.deltaTime;
             RaycastHit hitter;
             Physics.Raycast(transform.parent.transform.position, transform.parent.transform.forward, out hitter, 10000);
-            if (hitter.collider != null)
-            {
-	            LaserHittable hittable = hitter.collider.GetComponent<LaserHittable>();
-	            if (hittable != null)
-	            {
-		            hittable.DoDamage(1*Time.deltaTime);
-	            }
-			}
-			 
-     yield return null;
-        }
+	        if (hitter.collider != null)
+	        {
+		        var player = hitter.collider.GetComponent<LaserHittable>();
+		        if (player != null)
+		        {
+			        player.DoDamage(1*Time.deltaTime);
+		        }
+	        }
 
+	        yield return null;
+        }
+		aud.Stop();
         this.gameObject.audio.enabled = false;
         LaserParticleSystem.enableEmission = false;
         _firing = false;
