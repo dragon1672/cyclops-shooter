@@ -59,7 +59,7 @@ public class CyclopsMainPlayer : MonoBehaviour
 		if (Random.Range(0, 100) < 30)
 		{
 			Debug.Log("Hit");
-			DoDamage(1);
+			DoDamage(.5f);
 		}
 	}
 
