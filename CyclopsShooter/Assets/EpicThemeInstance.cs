@@ -3,7 +3,7 @@ using System.Collections;
 
 public class EpicThemeInstance : MonoBehaviour {
 
-    private GameObject themeMusic;
+    private static GameObject themeMusic;
 	// Use this for initialization
 	void Start () {
 
