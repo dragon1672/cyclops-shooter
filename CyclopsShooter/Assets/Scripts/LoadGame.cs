@@ -9,4 +9,12 @@ public class LoadGame : MonoBehaviour {
     {
         Application.LoadLevel(UnityGameName); 
     }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            LoadTheGame();
+        }
+    }
 }
