@@ -10,6 +10,7 @@ public class EpicThemeInstance : MonoBehaviour {
         if (themeMusic == null)
         {
             themeMusic = this.gameObject;
+            themeMusic.audio.Play();
             DontDestroyOnLoad(themeMusic);
         }
         else
