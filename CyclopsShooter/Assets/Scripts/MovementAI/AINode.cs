@@ -68,20 +68,25 @@ public abstract class AINode : MonoBehaviour {
     }
     private IEnumerator Movement(CyclopsEnemy character, AINode pt, Func<float,float> distPercentFun, Func<float, float> anglePercentFun)
     {
-       ExitAction(character);
-        float distance, angleDist;
-        while ((distance = (pt.transform.position - character.transform.position).magnitude) > .001 | (angleDist = Quaternion.Angle(pt.transform.rotation, character.transform.rotation)) > .001)
-        {
-	        float distPercent = Mathf.Clamp(distPercentFun(distance) * Time.deltaTime, 0, 1);
-	        float anglePercent = Mathf.Clamp(anglePercentFun(angleDist) * Time.deltaTime, 0, 1);
+	    if (!character.gameObject.activeInHierarchy) { yield break; }
+	    ExitAction(character);
+		if (!character.gameObject.activeInHierarchy) { yield break; }
+		float distance, angleDist;
+	    while ((distance = (pt.transform.position - character.transform.position).magnitude) > .001 |
+	           (angleDist = Quaternion.Angle(pt.transform.rotation, character.transform.rotation)) > .001)
+	    {
+			if (!character.gameObject.activeInHierarchy) { yield break; }
+			float distPercent = Mathf.Clamp(distPercentFun(distance)*Time.deltaTime, 0, 1);
+		    float anglePercent = Mathf.Clamp(anglePercentFun(angleDist)*Time.deltaTime, 0, 1);
 
-            character.transform.position = Vector3.Lerp(character.transform.position, pt.transform.position, distPercent);
-            character.transform.rotation = Quaternion.Slerp(character.transform.rotation, pt.transform.rotation, anglePercent);
-            yield return null;
-        }
-        character.transform.position = pt.transform.position;
-        character.transform.rotation = pt.transform.rotation;
-        character.CurrentAIPoint = pt;
-        pt.EnterAction(character,this);
+		    character.transform.position = Vector3.Lerp(character.transform.position, pt.transform.position, distPercent);
+		    character.transform.rotation = Quaternion.Slerp(character.transform.rotation, pt.transform.rotation, anglePercent);
+		    yield return null;
+	    }
+		character.transform.position = pt.transform.position;
+	    character.transform.rotation = pt.transform.rotation;
+	    character.CurrentAIPoint = pt;
+		if (!character.gameObject.activeInHierarchy) { yield break; }
+		pt.EnterAction(character, this);
     }
 }
