@@ -56,7 +56,7 @@ public class CyclopsEnemy : LaserHittable
 	public void Shoot()
 	{
 		if (!_activeInGame) return;
-		Debug.Log("Shooting");
+		//Debug.Log("Shooting");
 		_audioManager.PlayClip(ShootAudioClip);
 		if (_mainPlayer != null)
 			_mainPlayer.EnemyFiredShot(); //random chance to hit player

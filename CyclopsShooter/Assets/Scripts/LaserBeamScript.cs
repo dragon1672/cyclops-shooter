@@ -85,10 +85,11 @@ public class LaserBeamScript : MonoBehaviour {
             Physics.Raycast(transform.parent.transform.position, transform.parent.transform.forward, out hitter, 10000);
 	        if (hitter.collider != null)
 	        {
-		        var player = hitter.collider.GetComponent<LaserHittable>();
+				Debug.Log("Hit "+hitter.collider.name);
+				var player = hitter.collider.GetComponent<LaserHittable>();
 		        if (player != null)
 		        {
-			        player.DoDamage(1*Time.deltaTime);
+					player.DoDamage(1*Time.deltaTime);
 		        }
 	        }
 

@@ -26,7 +26,7 @@ public class AudioManager : MonoBehaviour {
 			//*/
 			Pool.AddLast(toAdd);
 			_numCreated++;
-			Debug.Log("Creating new Audio Source (total: " + _numCreated + ")");
+			//Debug.Log("Creating new Audio Source (total: " + _numCreated + ")");
 		}
 		var ret = Pool.Last.Value;
 		Pool.RemoveLast();

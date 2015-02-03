@@ -68,7 +68,7 @@ public class CyclopsMainPlayer : MonoBehaviour
 		{
 			if (!crouchScript || Random.Range(0, 1) <= .5)
 			{
-				Debug.Log("Hit");
+				//Debug.Log("Hit");
 				DoDamage(DamageAmount);
 			}
 		}
