@@ -28,6 +28,13 @@ public class GameStage : MonoBehaviour
 	void Update ()
 	{
 		if (!_activeInGame) return;
+		if(Input.GetKeyDown(KeyCode.J))
+		{
+			foreach (var cyclopsEnemy in _players)
+			{
+				cyclopsEnemy.DoDamage(cyclopsEnemy.Health * 2); // DIE
+			}
+		}
 		if (_players.All(n => n.IsDead))
 		{
 			_activeInGame = false;
