@@ -6,6 +6,8 @@ public class CyclopGameManager : MonoBehaviour
 	public CyclopsMainPlayer Player;
 	public RailSystem Rails;
 	private CrouchMe _crouchScript;
+    private TextOnScreenEnabler TextEnabler;
+    public int mainMenuLoadIndex = 0;
 
     void Start()
     {
@@ -20,6 +22,7 @@ public class CyclopGameManager : MonoBehaviour
 	    };
 	    Rails.CompletedAll += () => {
 			Debug.Log("You win");
+            StartCoroutine(WonGame(3.0f));
 	    };
 	    Rails.EnterSection += () =>
 	    {
@@ -31,4 +34,11 @@ public class CyclopGameManager : MonoBehaviour
 	{
 		Rails.Continue();
 	}
+
+    IEnumerator WonGame(float secToWait)
+    {
+        TextEnabler.EnableWinText = true;
+        yield return new WaitForSeconds(secToWait);
+        Application.LoadLevel(mainMenuLoadIndex);
+    }
 }
