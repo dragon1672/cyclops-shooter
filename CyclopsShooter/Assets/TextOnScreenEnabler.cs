@@ -11,12 +11,12 @@ public class TextOnScreenEnabler : MonoBehaviour {
         set { winText.SetActive(value); }
         get { return winText.activeInHierarchy; }
     }
-    public bool EnableGameoverText
+    public bool EnableGameOverText
     {
         set { gameoverText.SetActive(value); }
         get { return gameoverText.activeInHierarchy; }
     }
-    public bool EnablePleasewaitText
+    public bool EnablePleaseWaitText
     {
         set { pleasewaitText.SetActive(value); }
         get { return pleasewaitText.activeInHierarchy; }
@@ -24,8 +24,8 @@ public class TextOnScreenEnabler : MonoBehaviour {
         // Use this for initialization
 	void Start () {
         EnableWinText = startWinTextEnabled;
-        EnableGameoverText = startGameoverTextEnabled;
-        EnablePleasewaitText = startPleasewaitTextEnabled;
+        EnableGameOverText = startGameoverTextEnabled;
+        EnablePleaseWaitText = startPleasewaitTextEnabled;
 	}
 	
 	// Update is called once per frame
