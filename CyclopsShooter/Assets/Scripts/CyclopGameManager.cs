@@ -6,17 +6,19 @@ public class CyclopGameManager : MonoBehaviour
 	public CyclopsMainPlayer Player;
 	public RailSystem Rails;
 	private CrouchMe _crouchScript;
-    private TextOnScreenEnabler TextEnabler;
-    public int mainMenuLoadIndex = 0;
+    private static TextOnScreenEnabler TextEnabler;
+    public static int mainMenuLoadIndex = 0;
 
     void Start()
     {
+        TextEnabler = Player.GetComponentInChildren<TextOnScreenEnabler>();
 	    _crouchScript = Player.GetComponent<CrouchMe>();
 	    Rails.CompletedSection += () =>
 	    {
 		    if (_crouchScript != null)
 		    {
-			    _crouchScript.enabled = false;
+                _crouchScript.enabled = false;
+                TextEnabler.EnablePleaseWaitText = true;
 			    _crouchScript.UnCrouch();
 		    }
 	    };
@@ -26,7 +28,8 @@ public class CyclopGameManager : MonoBehaviour
 	    };
 	    Rails.EnterSection += () =>
 	    {
-		    _crouchScript.enabled = true;
+            _crouchScript.enabled = true;
+            TextEnabler.EnablePleaseWaitText = false;
 	    };
     }
 
@@ -35,10 +38,22 @@ public class CyclopGameManager : MonoBehaviour
 		Rails.Continue();
 	}
 
-    IEnumerator WonGame(float secToWait)
+    public static IEnumerator WonGame(float secToWait)
     {
         TextEnabler.EnableWinText = true;
+        return ReloadMainMenu(secToWait);
+    }
+
+    public static IEnumerator GameOver(float secToWait)
+    {
+        TextEnabler.EnableGameOverText = true;
+        return ReloadMainMenu(secToWait);
+    }
+
+    private static IEnumerator ReloadMainMenu(float secToWait)
+    {
         yield return new WaitForSeconds(secToWait);
+        AudioManager.resetPool();
         Application.LoadLevel(mainMenuLoadIndex);
     }
 }
