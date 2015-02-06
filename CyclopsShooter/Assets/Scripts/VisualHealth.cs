@@ -10,6 +10,6 @@ public class VisualHealth : MonoBehaviour {
     }
 	// Use this for initialization
 	void Start () {
-        Alpha = 1.0f;
+        Alpha = 0.0f;
 	}
 }
