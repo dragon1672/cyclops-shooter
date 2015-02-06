@@ -64,9 +64,17 @@ public class CyclopsEnemy : LaserHittable
 
 	public override void OnDeath()
 	{
-		VisualGameObject.SetActive(false);
-		_activeInGame = false;
-		DestroyEffectObject.SetActive(true);
-		Instantiate(DestroyEffectObject, transform.position, transform.rotation);
+        AC.IsDead2 = true;
+        StartCoroutine(WaitToDeActivate(1.0f));
 	}
+
+    private IEnumerator WaitToDeActivate(float secToWait)
+    {
+        yield return new WaitForSeconds(secToWait);
+
+        VisualGameObject.SetActive(false);
+        _activeInGame = false;
+        DestroyEffectObject.SetActive(true);
+        Instantiate(DestroyEffectObject, transform.position, transform.rotation);
+    }
 }
