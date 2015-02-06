@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(SoldierAnimationControls))]
-[RequireComponent(typeof(CyclopsMainPlayer))]
+//[RequireComponent(typeof(CyclopsMainPlayer))]
 public class CyclopsEnemy : LaserHittable
 {
 	public GameObject VisualGameObject = null;
