@@ -59,6 +59,15 @@ public class CyclopsMainPlayer : MonoBehaviour
 			HealthPercent = Mathf.Min(1, HealthPercent + HealthRegenPercentPerSecond*Time.deltaTime);
 		}
 		_currentHealthRegenDelay -= Time.deltaTime;
+
+        if (crouchScript.enabled)
+        {
+            TextEnabler.EnablePleasewaitText = false;
+        }
+        else
+        {
+            TextEnabler.EnablePleasewaitText = true;
+        }
 	}
 
 	public void EnemyFiredShot()
