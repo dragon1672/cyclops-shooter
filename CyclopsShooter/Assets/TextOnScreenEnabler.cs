@@ -23,15 +23,18 @@ public class TextOnScreenEnabler : MonoBehaviour {
     }
         // Use this for initialization
 	void Start () {
+        EnableWinText = startWinTextEnabled;
+        EnableGameoverText = startGameoverTextEnabled;
+        EnablePleasewaitText = startPleasewaitTextEnabled;
 	}
 	
 	// Update is called once per frame
 	void Update () {
         //DEBUG/////////////////////////////////////////
 
-        EnableWinText = startWinTextEnabled;
-        EnableGameoverText = startGameoverTextEnabled;
-        EnablePleasewaitText = startPleasewaitTextEnabled;
+        //EnableWinText = startWinTextEnabled;
+        //EnableGameoverText = startGameoverTextEnabled;
+        //EnablePleasewaitText = startPleasewaitTextEnabled;
 
         ////////////////////////////////////////////////
 	
