@@ -20,51 +20,27 @@ public class SoldierAnimationControls : MonoBehaviour {
         set { _animator.SetBool("IsWalking", value); }
     }
 
-    public bool IsJumping
-    {
-        get { return _animator.GetBool("IsJumping"); }
-        set { _animator.SetBool("IsJumping", value); }
-    }
-
-    public bool IsStrafingLeft
-    {
-        get { return _animator.GetBool("IsStrafingLeft"); }
-        set { _animator.SetBool("IsStrafingLeft", value); }
-    }
-
-    public bool IsStrafingRight
-    {
-        get { return _animator.GetBool("IsStrafingRight"); }
-        set { _animator.SetBool("IsStrafingRight", value); }
-    }
-
-    public bool IsTurningLeft
-    {
-        get { return _animator.GetBool("IsTurningLeft"); }
-        set { _animator.SetBool("IsTurningLeft", value); }
-    }
-
-    public bool IsTurningRight
-    {
-        get { return _animator.GetBool("IsTurningRight"); }
-        set { _animator.SetBool("IsTurningRight", value); }
-    }
-
     public bool IsShooting
     {
         get { return _animator.GetBool("IsShooting"); }
         set { _animator.SetBool("IsShooting", value); }
     }
 
-    public bool IsDead
+    public bool IsDead1
     {
-        get { return _animator.GetBool("IsDead"); }
-        set { _animator.SetBool("IsDead", value); }
+        get { return _animator.GetBool("IsDead1"); }
+        set { _animator.SetBool("IsDead1", value); }
+    }
+
+    public bool IsDead2
+    {
+        get { return _animator.GetBool("IsDead2"); }
+        set { _animator.SetBool("IsDead2", value); }
     }
 
     public void setAllAnimationsFalse()
     {
-        IsWalking = IsJumping = IsStrafingRight = IsStrafingLeft = IsTurningRight = IsTurningLeft = IsShooting = IsDead = false;
+        IsWalking = IsDead1 = IsDead2 = IsShooting = false;
     }
 
     void Awake()

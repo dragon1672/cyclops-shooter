@@ -9,10 +9,10 @@ public class StandAndShoot : AINode {
 	public override void EnterAction(CyclopsEnemy character, AINode previousMovementPoint)
 	{
         //Animation for shooting
-        if (!character.AC.IsJumping)
+        if (!character.AC.IsShooting)
         {
             character.AC.setAllAnimationsFalse();
-            character.AC.IsJumping = true;
+            character.AC.IsShooting = true;
         }
 		StartCoroutine(ShootLoop(character));
 	}
