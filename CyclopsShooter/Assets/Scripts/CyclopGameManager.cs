@@ -53,7 +53,6 @@ public class CyclopGameManager : MonoBehaviour
     private static IEnumerator ReloadMainMenu(float secToWait)
     {
         yield return new WaitForSeconds(secToWait);
-        AudioManager.resetPool();
         Application.LoadLevel(mainMenuLoadIndex);
     }
 }

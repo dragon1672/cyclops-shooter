@@ -14,7 +14,21 @@ public class AudioManager : MonoBehaviour {
 
 	private static AudObj GetAudObj()
 	{
-		if (Pool.Count <= 0)
+        addToPool();
+        AudObj ret = Pool.Last.Value;
+        while(ret.Obj == null)
+        {
+            Pool.RemoveLast();
+            addToPool();
+            ret = Pool.Last.Value;
+        }
+		Pool.RemoveLast();
+		return ret;
+	}
+
+    private static void addToPool()
+    {
+        if (Pool.Count <= 0)
 		{
 			var toAdd = new AudObj() { Obj = new GameObject("AudioSource" + _numCreated) };
 			toAdd.SourceComponent = toAdd.Obj.AddComponent<AudioSource>();
@@ -28,10 +42,7 @@ public class AudioManager : MonoBehaviour {
 			_numCreated++;
 			//Debug.Log("Creating new Audio Source (total: " + _numCreated + ")");
 		}
-		var ret = Pool.Last.Value;
-		Pool.RemoveLast();
-		return ret;
-	}
+    }
 	public void PlayClip(AudioClip toPlay)
 	{
 		if (!gameObject.activeInHierarchy)
