@@ -38,12 +38,15 @@ public class CyclopsMainPlayer : MonoBehaviour
 	public VoidAction OnDeathEvent = null;
 
 	private CrouchMe crouchScript;
+    private TextOnScreenEnabler TextEnabler;
+    public int mainMenuLoadIndex = 0;
 
 	void Start ()
 	{
 		crouchScript = GetComponent<CrouchMe>();
 		HealthPercent = 1;
 		DoDamage(.01f);
+        TextEnabler = GetComponentInChildren<TextOnScreenEnabler>();
 	}
 	
 	// Update is called once per frame
@@ -55,10 +58,6 @@ public class CyclopsMainPlayer : MonoBehaviour
 		{
 			HealthPercent = Mathf.Min(1, HealthPercent + HealthRegenPercentPerSecond*Time.deltaTime);
 		}
-
-
-
-
 		_currentHealthRegenDelay -= Time.deltaTime;
 	}
 
@@ -85,7 +84,18 @@ public class CyclopsMainPlayer : MonoBehaviour
 
 		if (OnDeathEvent != null) OnDeathEvent();
 		Debug.Log("Dead");
-		Application.Quit();
-		UnityEditor.EditorApplication.isPlaying = false;
+        StartCoroutine(GameOver(3.0f));
 	}
+
+    IEnumerator GameOver(float secToWait)
+    {
+        TextEnabler.EnableGameoverText = true;
+        LaserBeamScript[] lasers = GetComponentsInChildren<LaserBeamScript>();
+        foreach (LaserBeamScript l in lasers)
+        {
+            l.gameObject.SetActive(false);
+        }
+        yield return new WaitForSeconds(secToWait);
+        Application.LoadLevel(mainMenuLoadIndex);
+    }
 }
