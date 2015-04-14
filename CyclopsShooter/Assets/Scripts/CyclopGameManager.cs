@@ -38,6 +38,15 @@ public class CyclopGameManager : MonoBehaviour
 		Rails.Continue();
 	}
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            StartCoroutine(ReloadMainMenu(3));
+        }
+
+    }
+
     public static IEnumerator WonGame(float secToWait)
     {
         TextEnabler.EnableWinText = true;
